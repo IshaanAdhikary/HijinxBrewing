@@ -6,7 +6,22 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: 8c9cfa26abfee488c85f1582747f6a02
+    path: Assets/Scenes/Title.unity
+    guid: ba33148c7661b8046b838e480ced67b7
+  - enabled: 1
+    path: Assets/Scenes/Settings.unity
+    guid: e0f59b1893503e7469c8d5e07220eb36
+  - enabled: 1
+    path: Assets/Scenes/Credits.unity
+    guid: 8bfff2895fdf3a448b209ef09941c973
+  - enabled: 1
+    path: Assets/Scenes/Crushing.unity
+    guid: d6e66693bf0a62841837237f688d6873
+  - enabled: 1
+    path: Assets/Scenes/Mixing.unity
+    guid: 921db00512d70a24d8bdbf1a2564928f
+  - enabled: 1
+    path: Assets/Scenes/Pouring.unity
+    guid: a1bb62b6d826a2341b1b5db8a357237a
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
