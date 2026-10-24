@@ -14,7 +14,7 @@ namespace Brewing.Rhythm
         [Tooltip("Optional. Leave empty to use the built-in keyboard bindings.")]
         [SerializeField] InputActionAsset actionsAsset;
         [SerializeField] string actionMapName = "Rhythm";
-        [SerializeField] string[] buttonActionNames = { "Left", "Right" };
+        [SerializeField] string[] buttonActionNames = { "LeftPaw", "RightPaw" };
 
         InputActionMap map;
         InputAction[] actions;
@@ -41,10 +41,10 @@ namespace Brewing.Rhythm
             else
             {
                 map = new InputActionMap(actionMapName);
-                var left = map.AddAction("Left", InputActionType.Button);
+                var left = map.AddAction("LeftPaw", InputActionType.Button);
                 left.AddBinding("<Keyboard>/leftArrow");
                 left.AddBinding("<Keyboard>/a");
-                var right = map.AddAction("Right", InputActionType.Button);
+                var right = map.AddAction("RightPaw", InputActionType.Button);
                 right.AddBinding("<Keyboard>/rightArrow");
                 right.AddBinding("<Keyboard>/d");
             }

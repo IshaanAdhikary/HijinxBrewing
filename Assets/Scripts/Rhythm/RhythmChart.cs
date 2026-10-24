@@ -23,6 +23,23 @@ namespace Brewing.Rhythm
     }
 
     /// <summary>
+    /// A named trigger placed on a beat. Nothing in the engine interprets the name: whatever listens for it
+    /// decides what happens (fade the helper, start a distraction, and so on).
+    /// </summary>
+    [Serializable]
+    public struct ChartCue
+    {
+        public double beat;
+        public string name;
+
+        public ChartCue(double beat, string name)
+        {
+            this.beat = beat;
+            this.name = name;
+        }
+    }
+
+    /// <summary>
     /// A song plus its tempo sections. Events are generated from the sections: within each section the
     /// action pattern repeats, one action per event spacing, restarting at the start of every section.
     /// </summary>
@@ -49,10 +66,23 @@ namespace Brewing.Rhythm
             new ChartSection(0, 16, TempoMode.Normal),
         };
 
+        [Tooltip("Named triggers fired when the song reaches their beat. Listen for them with a ChartCueListener.")]
+        public ChartCue[] cues = new ChartCue[0];
+
         public BeatClock BeatClock => new BeatClock(bpm, firstBeatOffsetSeconds);
 
         public List<RhythmEvent> BuildEvents() => ChartBuilder.Build(sections, actionPattern);
 
-        public List<string> Validate() => ChartBuilder.Validate(sections, actionPattern);
+        public List<string> Validate()
+        {
+            var problems = ChartBuilder.Validate(sections, actionPattern);
+            if (cues != null)
+            {
+                for (int i = 0; i < cues.Length; i++)
+                    if (string.IsNullOrWhiteSpace(cues[i].name))
+                        problems.Add($"Cue {i} at beat {cues[i].beat} has no name.");
+            }
+            return problems;
+        }
     }
 }
