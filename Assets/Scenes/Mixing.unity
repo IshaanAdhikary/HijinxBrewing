@@ -244,6 +244,27 @@ MonoBehaviour:
   chart: {fileID: 11400000, guid: 4460650d34938924982bda318f8b85b0, type: 2}
   startOnLoad: 1
   leadInSeconds: 2
+  failure:
+    startValue: 0
+    perfectDelta: -0.06
+    goodDelta: -0.03
+    missDelta: 0.12
+  restartDelaySeconds: 2
+  chartStarted:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1332346847}
+        m_TargetAssemblyTypeName: Brewing.Rhythm.ScrollingNoteLane, Brewing.Rhythm
+        m_MethodName: Show
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!4 &421805916
 Transform:
   m_ObjectHideFlags: 0
@@ -399,6 +420,53 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
   m_BlendShapeWeights: []
+--- !u!1 &860570407
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 860570409}
+  - component: {fileID: 860570408}
+  m_Layer: 0
+  m_Name: FailureDebugBar
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &860570408
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 860570407}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2bfbd73405a03c54e89e9fd57f9dfd4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Brewing.Mixing::Brewing.Mixing.FailureDebugBar
+  game: {fileID: 421805915}
+  size: {x: 240, y: 18}
+  margin: {x: 12, y: 14}
+--- !u!4 &860570409
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 860570407}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1011308198
 GameObject:
   m_ObjectHideFlags: 0
@@ -707,6 +775,7 @@ Transform:
   - {fileID: 1096046388}
   - {fileID: 66642669}
   - {fileID: 735661893}
+  - {fileID: 1996383796}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1275696319
@@ -1006,6 +1075,64 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1996383795
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1996383796}
+  - component: {fileID: 1996383797}
+  m_Layer: 0
+  m_Name: Bubbles
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1996383796
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1996383795}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1275696318}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1996383797
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1996383795}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29f79bdb47580d44fae2b02b43af4bad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Brewing.Mixing::Brewing.Mixing.CauldronBubbles
+  game: {fileID: 421805915}
+  bubbleSprites:
+  - {fileID: 21300000, guid: abb265ea864adde479e3da1e8770fd9c, type: 3}
+  tint: {r: 1, g: 1, b: 1, a: 0.9}
+  sortingOrder: 3
+  maxBubbles: 40
+  startDanger: 0.05
+  amountPower: 1
+  maxSpawnsPerSecond: 30
+  areaRadius: 2.4
+  sizeRange: {x: 0.25, y: 0.6}
+  lifetimeRange: {x: 1.2, y: 2.4}
+  wobbleAmount: 0.06
+  wobbleSpeed: 3
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -1018,3 +1145,4 @@ SceneRoots:
   - {fileID: 612855794}
   - {fileID: 1332346848}
   - {fileID: 1651517146}
+  - {fileID: 860570409}
