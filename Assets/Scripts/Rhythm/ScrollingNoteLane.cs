@@ -11,7 +11,7 @@ namespace Brewing.Rhythm
     /// The lane follows the camera's top-left corner, so it stays at the top of the screen at any aspect
     /// ratio. Keep this object at the origin with scale 1. Sizes are in world units.
     /// </summary>
-    public class ScrollingNoteLane : MonoBehaviour
+    public class ScrollingNoteLane : MonoBehaviour, IFadeable
     {
         [Header("References")]
         [SerializeField] RhythmSession session;
@@ -29,10 +29,10 @@ namespace Brewing.Rhythm
         [SerializeField] float holdBarHeight = 0.2f;
 
         [Header("Look")]
-        [SerializeField, Tooltip("One color per button. Defaults are from the Okabe-Ito colorblind-safe palette: blue, then orange.")]
+        [SerializeField, Tooltip("One color per button. Defaults are from the Okabe-Ito colorblind-safe palette: bluish green, then orange. Matches the stir helper.")]
         Color[] buttonColors =
         {
-            new Color(0f, 0.447f, 0.698f),
+            new Color(0.42f, 0.78f, 0.2f),
             new Color(0.902f, 0.624f, 0f),
         };
         [SerializeField] Color laneColor = new Color(0f, 0f, 0f, 0.35f);
