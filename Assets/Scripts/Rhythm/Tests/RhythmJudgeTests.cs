@@ -122,6 +122,64 @@ namespace Brewing.Rhythm.Tests
             Assert.IsFalse(judge.Input(PressLeft, 0.5, out _));
         }
 
+        static RhythmJudge MakeChord(out List<JudgeResult> results)
+        {
+            // Press both buttons together at beat 0, release both together at beat 4 (2 seconds).
+            var events = new List<RhythmEvent>
+            {
+                new RhythmEvent(0, 0, new RhythmAction(0, InputKind.Press), 0),
+                new RhythmEvent(1, 0, new RhythmAction(1, InputKind.Press), 0),
+                new RhythmEvent(2, 4, new RhythmAction(0, InputKind.Release), 0),
+                new RhythmEvent(3, 4, new RhythmAction(1, InputKind.Release), 0),
+            };
+            var judge = new RhythmJudge(events, Clock, new JudgeSettings());
+            var list = new List<JudgeResult>();
+            judge.Judged += list.Add;
+            results = list;
+            return judge;
+        }
+
+        [Test]
+        public void ChordEventsCanBeHitInEitherOrder()
+        {
+            var judge = MakeChord(out var results);
+            Assert.IsTrue(judge.Input(PressRight, 0.01, out var right), "right first");
+            Assert.IsTrue(judge.Input(PressLeft, 0.02, out var left), "then left");
+            Assert.AreEqual(1, right.Event.Index);
+            Assert.AreEqual(0, left.Event.Index);
+            Assert.AreEqual(2, results.Count);
+            Assert.AreEqual(2, judge.Cursor, "both presses resolved, releases pending");
+        }
+
+        [Test]
+        public void ChordEventsKeepAFullWindow()
+        {
+            // Events sharing a beat must not shrink each other's window to zero.
+            var judge = MakeChord(out _);
+            Assert.IsTrue(judge.Input(PressLeft, 0.1, out var r));
+            Assert.AreEqual(Judgement.Good, r.Judgement);
+        }
+
+        [Test]
+        public void PressingOnlyOneKeyOfAChordMissesTheOther()
+        {
+            var judge = MakeChord(out var results);
+            judge.Input(PressLeft, 0.0, out _);
+            judge.AdvanceTo(0.2);
+            Assert.AreEqual(2, results.Count);
+            Assert.AreEqual(Judgement.Perfect, results[0].Judgement);
+            Assert.AreEqual(Judgement.Miss, results[1].Judgement);
+            Assert.AreEqual(1, results[1].Event.Index);
+        }
+
+        [Test]
+        public void TheSameKeyCannotHitAChordTwice()
+        {
+            var judge = MakeChord(out _);
+            Assert.IsTrue(judge.Input(PressLeft, 0.0, out _));
+            Assert.IsFalse(judge.Input(PressLeft, 0.01, out _));
+        }
+
         [Test]
         public void CountsAddUpAcrossASection()
         {

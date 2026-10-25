@@ -313,6 +313,7 @@ MonoBehaviour:
   showSeconds: 1.2
   barRangeSeconds: 0.12
   verticalPosition: 0.84
+  listenToSession: 1
 --- !u!4 &612855794
 Transform:
   m_ObjectHideFlags: 0
@@ -527,7 +528,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bfbd73405a03c54e89e9fd57f9dfd4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Brewing.Mixing::Brewing.Mixing.FailureDebugBar
-  game: {fileID: 421805915}
+  failureSource: {fileID: 421805915}
   size: {x: 240, y: 18}
   margin: {x: 12, y: 14}
 --- !u!4 &860570409
@@ -1121,7 +1122,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29f79bdb47580d44fae2b02b43af4bad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Brewing.Mixing::Brewing.Mixing.CauldronBubbles
-  game: {fileID: 421805915}
+  failureSource: {fileID: 421805915}
   bubbleSprites:
   - {fileID: 21300000, guid: abb265ea864adde479e3da1e8770fd9c, type: 3}
   tint: {r: 1, g: 1, b: 1, a: 0.9}

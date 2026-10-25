@@ -9,13 +9,13 @@ namespace Brewing.Rhythm
     public class RhythmTestHarness : MonoBehaviour
     {
         [Tooltip("Leave empty to use a built-in test chart (purple, blue, red, purple at 120 BPM).")]
-        [SerializeField] RhythmChart chart;
+        [SerializeField] PatternChart chart;
         [SerializeField] bool autoStart;
 
         RhythmSession session;
         AudioSource sfxSource;
         AudioClip hitTone;
-        RhythmChart fallbackChart;
+        PatternChart fallbackChart;
 
         float lastBeatRealtime = -10f;
         string lastResult = "";
@@ -57,11 +57,13 @@ namespace Brewing.Rhythm
             session.Begin(active, 2.0);
         }
 
-        RhythmChart GetFallbackChart()
+        PatternChart GetFallbackChart()
         {
             if (fallbackChart != null) return fallbackChart;
-            fallbackChart = ScriptableObject.CreateInstance<RhythmChart>();
+            fallbackChart = ScriptableObject.CreateInstance<PatternChart>();
             fallbackChart.name = "Fallback Test Chart";
+            fallbackChart.song = ScriptableObject.CreateInstance<Song>();
+            fallbackChart.song.name = "Fallback Metronome";
             fallbackChart.sections = new[]
             {
                 new ChartSection(0, 16, TempoMode.Normal),
@@ -135,8 +137,10 @@ namespace Brewing.Rhythm
                 var pending = judge.Pending;
                 if (pending.HasValue)
                 {
-                    var section = session.Chart.sections[pending.Value.SectionIndex];
-                    GUILayout.Label($"Mode: {section.mode}    Next: {pending.Value.Action}");
+                    string mode = session.Chart is PatternChart patternChart
+                        ? patternChart.sections[pending.Value.SectionIndex].mode.ToString()
+                        : "-";
+                    GUILayout.Label($"Mode: {mode}    Next: {pending.Value.Action}");
                 }
                 else
                 {

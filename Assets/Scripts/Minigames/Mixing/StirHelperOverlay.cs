@@ -65,6 +65,7 @@ namespace Brewing.Mixing
         Marker follower;
 
         GameObject container;
+        PatternChart chart;
         IReadOnlyList<RhythmEvent> builtFor;
         int[] slotOf;
         RhythmAction[] pattern;
@@ -136,7 +137,8 @@ namespace Brewing.Mixing
 
         void LateUpdate()
         {
-            bool running = session != null && session.IsRunning && session.Chart != null;
+            chart = session != null ? session.Chart as PatternChart : null;
+            bool running = session != null && session.IsRunning && chart != null;
             if (container.activeSelf != running) container.SetActive(running);
             if (!running) return;
 
@@ -149,7 +151,7 @@ namespace Brewing.Mixing
             var events = session.Events;
             var judge = session.Judge;
             double beatNow = session.Conductor.SongBeat;
-            double secondsPerBeat = session.Chart.BeatClock.SecondsPerBeat;
+            double secondsPerBeat = chart.BeatClock.SecondsPerBeat;
 
             int cursor = judge.Cursor;
             int nextSlot = cursor < events.Count ? slotOf[cursor] : -1;
@@ -215,7 +217,7 @@ namespace Brewing.Mixing
             marker.approach.enabled = visible;
             if (!visible) return;
 
-            double spacing = session.Chart.sections[events[cursor].SectionIndex].mode.EventSpacingBeats();
+            double spacing = chart.sections[events[cursor].SectionIndex].mode.EventSpacingBeats();
             float fraction = StirHelperMath.ApproachFraction(events[cursor].Beat, beatNow, spacing);
             float ringSize = markerSize * Mathf.Lerp(1.15f, approachStartScale, fraction);
             marker.approach.transform.localScale = new Vector3(ringSize, ringSize, 1f);
@@ -227,7 +229,7 @@ namespace Brewing.Mixing
             builtFor = session.Events;
             builtRadius = -1f;
 
-            pattern = session.Chart.actionPattern;
+            pattern = chart.actionPattern;
             patternOk = pattern != null && pattern.Length == Slots;
             if (!patternOk)
             {

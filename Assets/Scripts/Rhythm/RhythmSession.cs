@@ -73,7 +73,8 @@ namespace Brewing.Rhythm
             Judge.Judged += OnJudged;
             cueScheduler = new CueScheduler(chart.cues);
 
-            conductor.Play(chart.clip, chart.bpm, chart.firstBeatOffsetSeconds, leadInSeconds);
+            var timing = chart.BeatClock;
+            conductor.Play(chart.Clip, timing.Bpm, timing.FirstBeatOffset, leadInSeconds);
             IsRunning = true;
         }
 

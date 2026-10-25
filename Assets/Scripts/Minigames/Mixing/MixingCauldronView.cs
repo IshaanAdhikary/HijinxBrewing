@@ -39,18 +39,19 @@ namespace Brewing.Mixing
 
         void Update()
         {
-            if (session == null || !session.IsRunning || session.Chart == null) return;
+            if (session == null || !session.IsRunning) return;
+            if (!(session.Chart is PatternChart chart)) return;
 
             if (!ReferenceEquals(pathBuiltFor, session.Events))
             {
-                path = new StirPath(session.Events, session.Chart.sections);
+                path = new StirPath(session.Events, chart.sections);
                 pathBuiltFor = session.Events;
             }
 
             double beat = session.Conductor.SongBeat;
             PlaceSpoon(path.AngleAt(beat));
 
-            var blend = TempoBlend.At(beat, session.Chart.sections, telegraphBeats);
+            var blend = TempoBlend.At(beat, chart.sections, telegraphBeats);
             liquid.color = Color.Lerp(ColorFor(blend.From), ColorFor(blend.To), blend.T);
         }
 

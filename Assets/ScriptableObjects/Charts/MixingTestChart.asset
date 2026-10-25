@@ -9,12 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d52c3b69ce6f3c941a40d6a48c1f6ca6, type: 3}
+  m_Script: {fileID: 11500000, guid: 8cc7e435ca6a60d43adea9351c6820d6, type: 3}
   m_Name: MixingTestChart
-  m_EditorClassIdentifier: Brewing.Rhythm::Brewing.Rhythm.RhythmChart
-  clip: {fileID: 0}
-  bpm: 120
-  firstBeatOffsetSeconds: 0
+  m_EditorClassIdentifier: Brewing.Rhythm::Brewing.Rhythm.PatternChart
+  song: {fileID: 11400000, guid: d5f2379246e6d7c428338be558254946, type: 2}
+  cues:
+  - beat: 20
+    name: HelperFadeOut
   actionPattern:
   - button: 0
     kind: 0
@@ -37,6 +38,3 @@ MonoBehaviour:
   - startBeat: 32
     lengthBeats: 16
     mode: 0
-  cues:
-  - beat: 20
-    name: HelperFadeOut

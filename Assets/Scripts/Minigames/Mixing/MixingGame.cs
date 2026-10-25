@@ -10,10 +10,10 @@ namespace Brewing.Mixing
     /// Runs the mixing minigame: starts its chart on the rhythm session, tracks how close the brew is to
     /// boiling over, and restarts the chart from the beginning after a boil-over.
     /// </summary>
-    public class MixingGame : MonoBehaviour
+    public class MixingGame : MonoBehaviour, IFailureSource
     {
         [SerializeField] RhythmSession session;
-        [SerializeField] RhythmChart chart;
+        [SerializeField] PatternChart chart;
         [SerializeField] bool startOnLoad = true;
         [SerializeField] float leadInSeconds = 2f;
 
