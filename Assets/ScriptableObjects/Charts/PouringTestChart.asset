@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e54a7394dd941374dbc541135b4014b2, type: 3}
+  m_Name: PouringTestChart
+  m_EditorClassIdentifier: Brewing.Pouring::Brewing.Pouring.PourChart
+  song: {fileID: 11400000, guid: d5f2379246e6d7c428338be558254946, type: 2}
+  cues:
+  - beat: 32
+    name: HelperFadeOut
+  smallHoldBeats: 4
+  largeHoldBeats: 8
+  minimumGapBeats: 1
+  bottles:
+  - arriveBeat: 4
+    size: 0
+  - arriveBeat: 10
+    size: 1
+  - arriveBeat: 21
+    size: 0
+  - arriveBeat: 26
+    size: 0
+  - arriveBeat: 33
+    size: 1
+  - arriveBeat: 45
+    size: 0
+  - arriveBeat: 50
+    size: 1
+  - arriveBeat: 61
+    size: 0

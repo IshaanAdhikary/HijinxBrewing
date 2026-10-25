@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8cc7e435ca6a60d43adea9351c6820d6, type: 3}
+  m_Name: MixingTestChart
+  m_EditorClassIdentifier: Brewing.Rhythm::Brewing.Rhythm.PatternChart
+  song: {fileID: 11400000, guid: d5f2379246e6d7c428338be558254946, type: 2}
+  cues:
+  - beat: 20
+    name: HelperFadeOut
+  actionPattern:
+  - button: 0
+    kind: 0
+  - button: 0
+    kind: 1
+  - button: 1
+    kind: 0
+  - button: 1
+    kind: 1
+  sections:
+  - startBeat: 0
+    lengthBeats: 8
+    mode: 1
+  - startBeat: 8
+    lengthBeats: 8
+    mode: 0
+  - startBeat: 16
+    lengthBeats: 16
+    mode: 1
+  - startBeat: 32
+    lengthBeats: 16
+    mode: 0
