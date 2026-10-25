@@ -71,11 +71,15 @@ namespace Brewing.Rhythm
 
         public BeatClock BeatClock => new BeatClock(bpm, firstBeatOffsetSeconds);
 
-        public List<RhythmEvent> BuildEvents() => ChartBuilder.Build(sections, actionPattern);
+        /// <summary>The expected events, in beat order. Chart types with their own layout (such as pouring) override this.</summary>
+        public virtual List<RhythmEvent> BuildEvents() => ChartBuilder.Build(sections, actionPattern);
+
+        /// <summary>Problems with the event layout. Override alongside <see cref="BuildEvents"/>.</summary>
+        protected virtual List<string> ValidateEvents() => ChartBuilder.Validate(sections, actionPattern);
 
         public List<string> Validate()
         {
-            var problems = ChartBuilder.Validate(sections, actionPattern);
+            var problems = ValidateEvents();
             if (cues != null)
             {
                 for (int i = 0; i < cues.Length; i++)

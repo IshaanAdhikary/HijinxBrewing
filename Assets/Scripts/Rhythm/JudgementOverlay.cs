@@ -13,12 +13,17 @@ namespace Brewing.Rhythm
         [SerializeField, Tooltip("How long a result stays on screen, in seconds.")] float showSeconds = 1.2f;
         [SerializeField, Tooltip("Timing error shown at the edge of the bar, in seconds.")] float barRangeSeconds = 0.12f;
         [SerializeField, Range(0f, 1f), Tooltip("Top of the block as a fraction of the screen height from the top.")] float verticalPosition = 0.83f;
+        [SerializeField, Tooltip("Show every result from the session. Turn off when a minigame passes its own combined results to Show() instead.")]
+        bool listenToSession = true;
 
         bool hasResult;
         JudgeResult result;
         float resultRealtime;
         GUIStyle bigStyle;
         GUIStyle smallStyle;
+
+        /// <summary>Shows a result directly, for minigames that combine several judgements into one.</summary>
+        public void Show(JudgeResult judged) => OnJudged(judged);
 
         void Awake()
         {
@@ -27,12 +32,12 @@ namespace Brewing.Rhythm
 
         void OnEnable()
         {
-            if (session != null) session.Judged += OnJudged;
+            if (session != null && listenToSession) session.Judged += OnJudged;
         }
 
         void OnDisable()
         {
-            if (session != null) session.Judged -= OnJudged;
+            if (session != null && listenToSession) session.Judged -= OnJudged;
         }
 
         void OnJudged(JudgeResult judged)

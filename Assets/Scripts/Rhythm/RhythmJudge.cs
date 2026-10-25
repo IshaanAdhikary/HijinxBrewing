@@ -20,13 +20,20 @@ namespace Brewing.Rhythm
     /// <summary>
     /// Matches player input against a list of expected events. Works purely in song-time seconds, so it
     /// has no Unity dependencies and can be tested directly.
+    ///
+    /// Several events can share a beat (a chord, such as pressing left and right together). They are judged
+    /// independently and can be hit in any order.
     /// </summary>
     public class RhythmJudge
     {
+        const double SameTimeTolerance = 1e-6;
+
         readonly IReadOnlyList<RhythmEvent> events;
         readonly double[] times;
         readonly double[] goodWindows;
         readonly double[] perfectWindows;
+        readonly bool[] resolved;
+        readonly double widestWindow;
         int cursor;
 
         public event Action<JudgeResult> Judged;
@@ -39,7 +46,7 @@ namespace Brewing.Rhythm
         public bool IsFinished => cursor >= events.Count;
         public int EventCount => events.Count;
 
-        /// <summary>The next unresolved event, or null if every event has been judged.</summary>
+        /// <summary>The earliest unresolved event, or null if every event has been judged.</summary>
         public RhythmEvent? Pending => IsFinished ? (RhythmEvent?)null : events[cursor];
 
         public RhythmJudge(IReadOnlyList<RhythmEvent> events, BeatClock beatClock, JudgeSettings settings)
@@ -49,19 +56,27 @@ namespace Brewing.Rhythm
             times = new double[n];
             goodWindows = new double[n];
             perfectWindows = new double[n];
+            resolved = new bool[n];
 
             for (int i = 0; i < n; i++)
                 times[i] = beatClock.BeatToSongTime(events[i].Beat);
 
             for (int i = 0; i < n; i++)
             {
+                // The gap is measured to the nearest event at a different time, so events sharing a beat
+                // (a chord) still get a usable window.
                 double gap = double.MaxValue;
-                if (i > 0) gap = Math.Min(gap, times[i] - times[i - 1]);
-                if (i < n - 1) gap = Math.Min(gap, times[i + 1] - times[i]);
+                int previous = i - 1;
+                while (previous >= 0 && SameTime(times[previous], times[i])) previous--;
+                if (previous >= 0) gap = Math.Min(gap, times[i] - times[previous]);
+                int next = i + 1;
+                while (next < n && SameTime(times[next], times[i])) next++;
+                if (next < n) gap = Math.Min(gap, times[next] - times[i]);
 
                 double good = Math.Min(settings.goodWindow, gap * settings.maxFractionOfGap);
                 goodWindows[i] = good;
                 perfectWindows[i] = Math.Min(settings.perfectWindow, good * 0.5);
+                widestWindow = Math.Max(widestWindow, good);
             }
         }
 
@@ -70,40 +85,49 @@ namespace Brewing.Rhythm
         /// <summary>Marks every event whose window has fully passed as a miss.</summary>
         public void AdvanceTo(double songTime)
         {
-            while (cursor < events.Count && songTime > times[cursor] + goodWindows[cursor])
-                Resolve(new JudgeResult(events[cursor], Judgement.Miss, 0.0));
+            // Events at or after songTime cannot have expired yet.
+            for (int i = cursor; i < events.Count && times[i] < songTime; i++)
+            {
+                if (!resolved[i] && songTime > times[i] + goodWindows[i])
+                    Resolve(i, new JudgeResult(events[i], Judgement.Miss, 0.0));
+            }
         }
 
         /// <summary>
-        /// Offers one player action. Returns true if it resolved the pending event. Wrong buttons and
-        /// inputs that are too early for the pending event are ignored and return false.
+        /// Offers one player action. Returns true if it hit an unresolved event of that action whose window
+        /// contains the input. Wrong buttons and inputs outside every window are ignored and return false.
         /// </summary>
         public bool Input(RhythmAction action, double songTime, out JudgeResult result)
         {
             AdvanceTo(songTime);
             result = default;
 
-            if (IsFinished) return false;
+            for (int i = cursor; i < events.Count && times[i] - widestWindow <= songTime; i++)
+            {
+                if (resolved[i]) continue;
+                double error = songTime - times[i];
+                if (Math.Abs(error) > goodWindows[i]) continue;
+                if (!action.Equals(events[i].Action)) continue;
 
-            double error = songTime - times[cursor];
-            if (Math.Abs(error) > goodWindows[cursor]) return false;
-            if (!action.Equals(events[cursor].Action)) return false;
-
-            var judgement = Math.Abs(error) <= perfectWindows[cursor] ? Judgement.Perfect : Judgement.Good;
-            result = new JudgeResult(events[cursor], judgement, error);
-            Resolve(result);
-            return true;
+                var judgement = Math.Abs(error) <= perfectWindows[i] ? Judgement.Perfect : Judgement.Good;
+                result = new JudgeResult(events[i], judgement, error);
+                Resolve(i, result);
+                return true;
+            }
+            return false;
         }
 
         public void Reset()
         {
             cursor = 0;
+            Array.Clear(resolved, 0, resolved.Length);
             PerfectCount = GoodCount = MissCount = 0;
         }
 
-        void Resolve(JudgeResult result)
+        void Resolve(int index, JudgeResult result)
         {
-            cursor++;
+            resolved[index] = true;
+            while (cursor < events.Count && resolved[cursor]) cursor++;
             switch (result.Judgement)
             {
                 case Judgement.Perfect: PerfectCount++; break;
@@ -112,5 +136,7 @@ namespace Brewing.Rhythm
             }
             Judged?.Invoke(result);
         }
+
+        static bool SameTime(double a, double b) => Math.Abs(a - b) < SameTimeTolerance;
     }
 }

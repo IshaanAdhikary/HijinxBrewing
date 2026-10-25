@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Brewing.Mixing
 {
@@ -8,15 +9,17 @@ namespace Brewing.Mixing
     /// </summary>
     public class FailureDebugBar : MonoBehaviour
     {
-        [SerializeField] MixingGame game;
+        [SerializeField, FormerlySerializedAs("game"), Tooltip("The minigame to show (anything implementing IFailureSource, such as MixingGame or PouringGame).")]
+        MonoBehaviour failureSource;
         [SerializeField] Vector2 size = new Vector2(240f, 18f);
         [SerializeField, Tooltip("Distance from the left and bottom edges of the screen, in pixels.")] Vector2 margin = new Vector2(12f, 14f);
 
         GUIStyle labelStyle;
+        IFailureSource game;
 
         void Awake()
         {
-            if (game == null) game = FindAnyObjectByType<MixingGame>();
+            game = FailureSources.Resolve(failureSource, this);
         }
 
         void OnGUI()

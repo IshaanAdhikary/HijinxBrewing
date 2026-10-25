@@ -1,0 +1,17 @@
+{
+    "name": "Brewing.Pouring",
+    "rootNamespace": "Brewing.Pouring",
+    "references": [
+        "Brewing.Rhythm",
+        "Brewing.Mixing"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

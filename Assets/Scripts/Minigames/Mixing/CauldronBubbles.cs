@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Brewing.Mixing
 {
@@ -13,7 +14,8 @@ namespace Brewing.Mixing
     /// </summary>
     public class CauldronBubbles : MonoBehaviour
     {
-        [SerializeField] MixingGame game;
+        [SerializeField, FormerlySerializedAs("game"), Tooltip("The minigame driving the bubbles (anything implementing IFailureSource, such as MixingGame or PouringGame).")]
+        MonoBehaviour failureSource;
 
         [Header("Sprites")]
         [SerializeField, Tooltip("Placeholder for now. Add or swap in hand-drawn bubble sprites here.")] Sprite[] bubbleSprites;
@@ -47,18 +49,19 @@ namespace Brewing.Mixing
         readonly List<Bubble> active = new List<Bubble>();
         readonly Stack<Bubble> pool = new Stack<Bubble>();
         float spawnBudget;
+        IFailureSource source;
 
         /// <summary>Number of bubbles currently on screen.</summary>
         public int ActiveCount => active.Count;
 
         void Awake()
         {
-            if (game == null) game = FindAnyObjectByType<MixingGame>();
+            source = FailureSources.Resolve(failureSource, this);
         }
 
         void Update()
         {
-            float danger = game != null ? game.FailureLevel : 0f;
+            float danger = source != null ? source.FailureLevel : 0f;
             int target = BubbleMath.TargetCount(danger, startDanger, maxBubbles, amountPower);
 
             spawnBudget = Mathf.Min(spawnBudget + maxSpawnsPerSecond * Time.deltaTime, 3f);
