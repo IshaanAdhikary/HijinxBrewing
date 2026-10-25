@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b5e3f10ab8042c4e877a37ee49af0e7, type: 3}
+  m_Name: CrushingTestChart
+  m_EditorClassIdentifier: Brewing.Crushing::Brewing.Crushing.CallResponseChart
+  song: {fileID: 11400000, guid: d5f2379246e6d7c428338be558254946, type: 2}
+  cues: []
+  layout:
+    firstBeat: 0
+    beatsPerBar: 4
+    callBars: 2
+    slotsPerBeat: 2
+  rounds:
+  - pattern: L...R... | L...R...
+    ingredient: {fileID: 11400000, guid: 3a5dbb6297a770f428a97fc021fdb420, type: 2}
+  - pattern: L.L.R... | L.L.R...
+    ingredient: {fileID: 11400000, guid: c7912108d1cfc274db819a93eb054c4e, type: 2}
+  - pattern: L.R.L.R. | LL..RR..
+    ingredient: {fileID: 11400000, guid: 2fbd49dea9b038a498e6cfbf2cb7ae91, type: 2}
+  - pattern: L.RL..R. | R.LR..L.
+    ingredient: {fileID: 11400000, guid: 6c795d19c0a5a9542af0c52de49815eb, type: 2}
+  - pattern: LLR.RRL. | L.R.LRL.
+    ingredient: {fileID: 11400000, guid: 73c3638f1f3938d4d81f3cd0cdabf0c4, type: 2}
