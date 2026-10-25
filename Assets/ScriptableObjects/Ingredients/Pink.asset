@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7432746666244144e9b42e0ee2f716ad, type: 3}
+  m_Name: Pink
+  m_EditorClassIdentifier: Brewing.Minigames.Shared::Brewing.Minigames.Ingredient
+  displayName: Pink
+  sprite: {fileID: 6211905652739000006, guid: dda03cade14175f4e9b1d55d304fb125, type: 3}
+  shelfSprite: {fileID: -1462033813370423991, guid: c234d2feca7f69344a94796c965b06be, type: 3}
+  powderColor: {r: 1, g: 0.5, b: 1, a: 1}
