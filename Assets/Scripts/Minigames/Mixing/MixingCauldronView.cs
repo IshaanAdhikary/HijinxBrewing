@@ -26,6 +26,12 @@ namespace Brewing.Mixing
         StirPath path;
         IReadOnlyList<RhythmEvent> pathBuiltFor;
 
+        /// <summary>Radius of the spoon's path, so other visuals can sit on it.</summary>
+        public float StirRadius => stirRadius;
+
+        /// <summary>The spoon, so other visuals can follow it.</summary>
+        public Transform Spoon => spoon;
+
         void OnEnable()
         {
             PlaceSpoon(-90.0);

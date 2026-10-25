@@ -253,8 +253,8 @@ MonoBehaviour:
   chartStarted:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1332346847}
-        m_TargetAssemblyTypeName: Brewing.Rhythm.ScrollingNoteLane, Brewing.Rhythm
+      - m_Target: {fileID: 668807580}
+        m_TargetAssemblyTypeName: Brewing.Mixing.StirHelperOverlay, Brewing.Mixing
         m_MethodName: Show
         m_Mode: 1
         m_Arguments:
@@ -328,6 +328,84 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &668807579
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 668807581}
+  - component: {fileID: 668807580}
+  - component: {fileID: 668807582}
+  m_Layer: 0
+  m_Name: StirHelper
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &668807580
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 668807579}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e60633658c169440a55be00676988d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Brewing.Mixing::Brewing.Mixing.StirHelperOverlay
+  session: {fileID: 1011308199}
+  view: {fileID: 1275696319}
+  fallbackRadius: 1.8
+  circleSprite: {fileID: 21300000, guid: 70f7d17f089c30a4588b814bffd52b22, type: 3}
+  ringSprite: {fileID: 21300000, guid: 6157007da619ed04bac6355367bc7b99, type: 3}
+  arcMaterial: {fileID: 2100000, guid: 592ddea16834a084cb63f731e6404522, type: 2}
+  markerSize: 0.7
+  approachStartScale: 2.4
+  approachRingAlpha: 0.9
+  arcWidth: 0.2
+  activeArcWidthScale: 1.6
+  dimmedAlpha: 0.55
+  pulseScale: 0.3
+  pulseSeconds: 0.2
+  buttonColors:
+  - {r: 0.42, g: 0.78, b: 0.2, a: 1}
+  - {r: 0.902, g: 0.624, b: 0, a: 1}
+  sortingOrder: 2
+  showCompassMarkers: 0
+  hideApproachRingWhenNotHeld: 0
+--- !u!4 &668807581
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 668807579}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1275696318}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &668807582
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 668807579}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4de072cc2cfe954b9c5492b2bacf528, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Brewing.Rhythm::Brewing.Rhythm.HelperFader
+  fadeSeconds: 3
 --- !u!1 &735661892
 GameObject:
   m_ObjectHideFlags: 0
@@ -407,7 +485,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 5
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: 1f5bcad9cf37f464eaee2c08bdac27f7, type: 3}
   m_Color: {r: 0.55, g: 0.35, b: 0.18, a: 1}
@@ -776,6 +854,7 @@ Transform:
   - {fileID: 66642669}
   - {fileID: 735661893}
   - {fileID: 1996383796}
+  - {fileID: 668807581}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1275696319
@@ -798,83 +877,6 @@ MonoBehaviour:
   normalTimeColor: {r: 0.65, g: 0.25, b: 0.9, a: 1}
   doubleTimeColor: {r: 0.95, g: 0.25, b: 0.3, a: 1}
   telegraphBeats: 4
---- !u!1 &1332346845
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1332346848}
-  - component: {fileID: 1332346847}
-  - component: {fileID: 1332346846}
-  m_Layer: 0
-  m_Name: NoteLane
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1332346846
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1332346845}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a4de072cc2cfe954b9c5492b2bacf528, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Brewing.Rhythm::Brewing.Rhythm.NoteLaneFader
-  lane: {fileID: 1332346847}
-  fadeSeconds: 1.5
---- !u!114 &1332346847
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1332346845}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c2cca0639fe86834aab2b6f335bf82ed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Brewing.Rhythm::Brewing.Rhythm.ScrollingNoteLane
-  session: {fileID: 1011308199}
-  targetCamera: {fileID: 0}
-  circleSprite: {fileID: 21300000, guid: 70f7d17f089c30a4588b814bffd52b22, type: 3}
-  ringSprite: {fileID: 21300000, guid: 6157007da619ed04bac6355367bc7b99, type: 3}
-  squareSprite: {fileID: 21300000, guid: 1f5bcad9cf37f464eaee2c08bdac27f7, type: 3}
-  laneHeight: 1
-  topMargin: 0.25
-  hitLineInset: 1.6
-  unitsPerBeat: 1.6
-  noteSize: 0.55
-  holdBarHeight: 0.2
-  buttonColors:
-  - {r: 0, g: 0.447, b: 0.698, a: 1}
-  - {r: 0.902, g: 0.624, b: 0, a: 1}
-  laneColor: {r: 0, g: 0, b: 0, a: 0.35}
-  hitLineColor: {r: 1, g: 1, b: 1, a: 0.9}
-  dimmedAlpha: 0.25
-  sortingOrder: 20
---- !u!4 &1332346848
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1332346845}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1376022022
 GameObject:
   m_ObjectHideFlags: 0
@@ -1047,8 +1049,8 @@ MonoBehaviour:
     onCue:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1332346846}
-          m_TargetAssemblyTypeName: Brewing.Rhythm.NoteLaneFader, Brewing.Rhythm
+        - m_Target: {fileID: 668807582}
+          m_TargetAssemblyTypeName: Brewing.Rhythm.HelperFader, Brewing.Rhythm
           m_MethodName: FadeOut
           m_Mode: 1
           m_Arguments:
@@ -1123,7 +1125,7 @@ MonoBehaviour:
   bubbleSprites:
   - {fileID: 21300000, guid: abb265ea864adde479e3da1e8770fd9c, type: 3}
   tint: {r: 1, g: 1, b: 1, a: 0.9}
-  sortingOrder: 3
+  sortingOrder: 6
   maxBubbles: 40
   startDanger: 0.05
   amountPower: 1
@@ -1143,6 +1145,5 @@ SceneRoots:
   - {fileID: 1011308202}
   - {fileID: 421805916}
   - {fileID: 612855794}
-  - {fileID: 1332346848}
   - {fileID: 1651517146}
   - {fileID: 860570409}
