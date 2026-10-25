@@ -4,8 +4,8 @@ using Brewing.Rhythm;
 namespace Brewing.Crushing
 {
     /// <summary>
-    /// Swaps the cat's sprite to match what is happening: a paw on each key press, frazzled (and shaking) on
-    /// a miss, a jump after a crushed ingredient, and sitting otherwise. The cat stays where it was placed
+    /// Swaps the cat's sprite to match what is happening: a paw on each key press, frazzled (and shaking, with
+    /// a random cry) on a miss, a jump after a crushed ingredient, and sitting otherwise. The cat stays where it was placed
     /// in the scene, and every other pose is lined up with the idle pose's bottom center, so sprites of
     /// different sizes stand on the same spot. Put this on a child of the object that pulses, so the shake
     /// and the pulse do not fight over the transform.
@@ -35,6 +35,11 @@ namespace Brewing.Crushing
         [SerializeField, Tooltip("Peak height of the hop, in world units.")] float hopHeight = 0.35f;
         [SerializeField, Tooltip("Seconds from leaving the ground to landing. The cheer pose holds a little after.")] float hopSeconds = 0.35f;
 
+        [Header("Cry on a miss")]
+        [SerializeField, Tooltip("One is picked at random for each miss, never the same one twice in a row.")] AudioClip[] missSounds = new AudioClip[0];
+        [SerializeField, Range(0f, 1f)] float missVolume = 0.8f;
+        [SerializeField, Tooltip("Shortest gap between cries, in seconds, so quick misses in a row don't pile up.")] float minSecondsBetweenCries = 0.5f;
+
         // Higher priorities are not interrupted by lower ones until they end.
         const int PawPriority = 1, CheerPriority = 1, MissPriority = 2;
 
@@ -44,10 +49,15 @@ namespace Brewing.Crushing
         float poseStart;
         bool shaking;
         Vector3 restPosition;
+        AudioSource voice;
+        int lastCry = -1;
+        float lastCryTime = float.NegativeInfinity;
 
         void Awake()
         {
             restPosition = body.transform.localPosition;
+            voice = gameObject.AddComponent<AudioSource>();
+            voice.playOnAwake = false;
         }
 
         void OnEnable()
@@ -72,7 +82,22 @@ namespace Brewing.Crushing
 
         void OnNoteJudged(JudgeResult result)
         {
-            if (result.Judgement == Judgement.Miss) Show(frazzled, frazzledSeconds, MissPriority, true);
+            if (result.Judgement != Judgement.Miss) return;
+            Show(frazzled, frazzledSeconds, MissPriority, true);
+            Cry();
+        }
+
+        void Cry()
+        {
+            if (missSounds.Length == 0 || Time.time - lastCryTime < minSecondsBetweenCries) return;
+
+            int pick = Random.Range(0, missSounds.Length);
+            if (missSounds.Length > 1 && pick == lastCry) pick = (pick + Random.Range(1, missSounds.Length)) % missSounds.Length;
+            if (missSounds[pick] == null) return;
+
+            voice.PlayOneShot(missSounds[pick], missVolume);
+            lastCry = pick;
+            lastCryTime = Time.time;
         }
 
         void OnRoundFinished(int round, bool crushed)

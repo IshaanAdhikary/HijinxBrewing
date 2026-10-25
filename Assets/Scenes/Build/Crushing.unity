@@ -1197,6 +1197,12 @@ MonoBehaviour:
   shakeSpeed: 45
   hopHeight: 0.35
   hopSeconds: 0.35
+  missSounds:
+  - {fileID: 8300000, guid: b548ba16fe3b4494eac35ef218e01b9c, type: 3}
+  - {fileID: 8300000, guid: 9529048009e233f4a8edee16fb4f57ed, type: 3}
+  - {fileID: 8300000, guid: ebb86a5f31dc4174ab611422f984c8f1, type: 3}
+  missVolume: 0.8
+  minSecondsBetweenCries: 0.5
 --- !u!212 &1231051513
 SpriteRenderer:
   serializedVersion: 3
