@@ -1,4 +1,4 @@
-namespace Brewing.Mixing
+namespace Brewing.Minigames
 {
     /// <summary>
     /// Anything that tracks how close the brew is to boiling over. The bubbles and the failure debug bar read

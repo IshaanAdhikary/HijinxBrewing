@@ -23,7 +23,7 @@ namespace Brewing.Pouring
         /// <summary>Adds one judgement. Returns true, with the combined result, once the whole chord is in.</summary>
         public bool Add(JudgeResult result, out JudgeResult combined)
         {
-            var key = (result.Event.SectionIndex, result.Event.Action.kind);
+            var key = (result.Event.Group, result.Event.Action.kind);
             var worst = result;
             int count = 1;
             if (partial.TryGetValue(key, out var existing))

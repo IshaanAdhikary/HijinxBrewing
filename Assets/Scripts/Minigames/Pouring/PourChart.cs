@@ -84,7 +84,7 @@ namespace Brewing.Pouring
 
         /// <summary>
         /// Four events per bottle: press left and right on its start beat, release both on its end beat.
-        /// Each event's SectionIndex holds the bottle it belongs to.
+        /// Each event's Group holds the bottle it belongs to.
         /// </summary>
         public static List<RhythmEvent> Build(IReadOnlyList<PourWindow> windows)
         {

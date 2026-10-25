@@ -3,7 +3,7 @@
     "rootNamespace": "Brewing.Pouring",
     "references": [
         "Brewing.Rhythm",
-        "Brewing.Mixing"
+        "Brewing.Minigames.Shared"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

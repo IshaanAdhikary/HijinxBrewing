@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-namespace Brewing.Mixing
+namespace Brewing.Minigames
 {
     /// <summary>
     /// Bubbles on the surface of the cauldron. The closer the brew is to boiling over, the more bubbles there
@@ -14,8 +14,8 @@ namespace Brewing.Mixing
     /// </summary>
     public class CauldronBubbles : MonoBehaviour
     {
-        [SerializeField, FormerlySerializedAs("game"), Tooltip("The minigame driving the bubbles (anything implementing IFailureSource, such as MixingGame or PouringGame).")]
-        MonoBehaviour failureSource;
+        [SerializeField, FormerlySerializedAs("game"), Tooltip("The minigame driving the bubbles (such as MixingGame or PouringGame).")]
+        FailureRun failureSource;
 
         [Header("Sprites")]
         [SerializeField, Tooltip("Placeholder for now. Add or swap in hand-drawn bubble sprites here.")] Sprite[] bubbleSprites;
@@ -49,19 +49,18 @@ namespace Brewing.Mixing
         readonly List<Bubble> active = new List<Bubble>();
         readonly Stack<Bubble> pool = new Stack<Bubble>();
         float spawnBudget;
-        IFailureSource source;
 
         /// <summary>Number of bubbles currently on screen.</summary>
         public int ActiveCount => active.Count;
 
         void Awake()
         {
-            source = FailureSources.Resolve(failureSource, this);
+            if (failureSource == null) Debug.LogError("No failure source assigned.", this);
         }
 
         void Update()
         {
-            float danger = source != null ? source.FailureLevel : 0f;
+            float danger = failureSource != null ? failureSource.FailureLevel : 0f;
             int target = BubbleMath.TargetCount(danger, startDanger, maxBubbles, amountPower);
 
             spawnBudget = Mathf.Min(spawnBudget + maxSpawnsPerSecond * Time.deltaTime, 3f);

@@ -305,7 +305,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2bfbd73405a03c54e89e9fd57f9dfd4c, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Brewing.Mixing::Brewing.Mixing.FailureDebugBar
+  m_EditorClassIdentifier: Brewing.Minigames.Shared::Brewing.Minigames.FailureDebugBar
   failureSource: {fileID: 1719504965}
   size: {x: 240, y: 18}
   margin: {x: 12, y: 14}
@@ -2001,7 +2001,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 29f79bdb47580d44fae2b02b43af4bad, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Brewing.Mixing::Brewing.Mixing.CauldronBubbles
+  m_EditorClassIdentifier: Brewing.Minigames.Shared::Brewing.Minigames.CauldronBubbles
   failureSource: {fileID: 1719504965}
   bubbleSprites:
   - {fileID: 21300000, guid: abb265ea864adde479e3da1e8770fd9c, type: 3}

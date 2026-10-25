@@ -49,7 +49,7 @@ namespace Brewing.Pouring.Tests
             Assert.AreEqual(new RhythmAction(1, InputKind.Press), events[1].Action);
             Assert.AreEqual(new RhythmAction(0, InputKind.Release), events[2].Action);
             Assert.AreEqual(new RhythmAction(1, InputKind.Release), events[3].Action);
-            Assert.IsTrue(events.All(e => e.SectionIndex == 0), "events carry their bottle number");
+            Assert.IsTrue(events.All(e => e.Group == 0), "events carry their bottle number");
             CollectionAssert.AreEqual(new[] { 0, 1, 2, 3 }, events.Select(e => e.Index).ToArray());
         }
 

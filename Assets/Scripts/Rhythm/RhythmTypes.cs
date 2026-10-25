@@ -47,14 +47,15 @@ namespace Brewing.Rhythm
         public readonly int Index;
         public readonly double Beat;
         public readonly RhythmAction Action;
-        public readonly int SectionIndex;
+        /// <summary>The minigame's own grouping: a section for mixing, a bottle for pouring.</summary>
+        public readonly int Group;
 
-        public RhythmEvent(int index, double beat, RhythmAction action, int sectionIndex)
+        public RhythmEvent(int index, double beat, RhythmAction action, int group)
         {
             Index = index;
             Beat = beat;
             Action = action;
-            SectionIndex = sectionIndex;
+            Group = group;
         }
     }
 

@@ -31,16 +31,16 @@ namespace Brewing.Mixing
             for (int i = 0; i < n; i++)
             {
                 beats[i] = events[i].Beat;
-                bool continuesSection = i > 0 && events[i - 1].SectionIndex == events[i].SectionIndex;
+                bool continuesSection = i > 0 && events[i - 1].Group == events[i].Group;
                 indexInSection[i] = continuesSection ? indexInSection[i - 1] + 1 : 0;
             }
 
             for (int i = 0; i < n; i++)
             {
-                bool nextInSameSection = i + 1 < n && events[i + 1].SectionIndex == events[i].SectionIndex;
+                bool nextInSameSection = i + 1 < n && events[i + 1].Group == events[i].Group;
                 travelEnd[i] = nextInSameSection
                     ? beats[i + 1]
-                    : beats[i] + sections[events[i].SectionIndex].mode.EventSpacingBeats();
+                    : beats[i] + sections[events[i].Group].mode.EventSpacingBeats();
             }
         }
 

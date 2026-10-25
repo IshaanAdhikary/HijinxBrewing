@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Brewing.Mixing
+namespace Brewing.Minigames
 {
     /// <summary>The numbers behind the cauldron bubbles, kept separate so they can be tested.</summary>
     public static class BubbleMath

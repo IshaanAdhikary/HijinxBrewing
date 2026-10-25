@@ -17,7 +17,7 @@ namespace Brewing.Mixing
             int indexInSection = 0;
             for (int i = 0; i < events.Count; i++)
             {
-                bool continues = i > 0 && events[i - 1].SectionIndex == events[i].SectionIndex;
+                bool continues = i > 0 && events[i - 1].Group == events[i].Group;
                 indexInSection = continues ? indexInSection + 1 : 0;
                 slots[i] = patternLength > 0 ? indexInSection % patternLength : 0;
             }

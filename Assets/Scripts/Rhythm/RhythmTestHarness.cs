@@ -138,7 +138,7 @@ namespace Brewing.Rhythm
                 if (pending.HasValue)
                 {
                     string mode = session.Chart is PatternChart patternChart
-                        ? patternChart.sections[pending.Value.SectionIndex].mode.ToString()
+                        ? patternChart.sections[pending.Value.Group].mode.ToString()
                         : "-";
                     GUILayout.Label($"Mode: {mode}    Next: {pending.Value.Action}");
                 }

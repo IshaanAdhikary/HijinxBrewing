@@ -23,9 +23,9 @@ namespace Brewing.Rhythm.Tests
                 new ChartSection(12, 2, TempoMode.Double),
             }, Stir);
 
-            Assert.AreEqual(new[] { 0.0, 2.0, 4.0, 6.0 }, events.Where(e => e.SectionIndex == 0).Select(e => e.Beat).ToArray());
-            Assert.AreEqual(new[] { 8.0, 9.0, 10.0, 11.0 }, events.Where(e => e.SectionIndex == 1).Select(e => e.Beat).ToArray());
-            Assert.AreEqual(new[] { 12.0, 12.5, 13.0, 13.5 }, events.Where(e => e.SectionIndex == 2).Select(e => e.Beat).ToArray());
+            Assert.AreEqual(new[] { 0.0, 2.0, 4.0, 6.0 }, events.Where(e => e.Group == 0).Select(e => e.Beat).ToArray());
+            Assert.AreEqual(new[] { 8.0, 9.0, 10.0, 11.0 }, events.Where(e => e.Group == 1).Select(e => e.Beat).ToArray());
+            Assert.AreEqual(new[] { 12.0, 12.5, 13.0, 13.5 }, events.Where(e => e.Group == 2).Select(e => e.Beat).ToArray());
         }
 
         [Test]
@@ -46,7 +46,7 @@ namespace Brewing.Rhythm.Tests
                 new ChartSection(4, 4, TempoMode.Normal),
             }, Stir);
 
-            var secondSection = events.Where(e => e.SectionIndex == 1).ToList();
+            var secondSection = events.Where(e => e.Group == 1).ToList();
             Assert.AreEqual(Stir[0], secondSection[0].Action);
         }
 

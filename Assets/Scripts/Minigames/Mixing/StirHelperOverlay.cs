@@ -217,7 +217,7 @@ namespace Brewing.Mixing
             marker.approach.enabled = visible;
             if (!visible) return;
 
-            double spacing = chart.sections[events[cursor].SectionIndex].mode.EventSpacingBeats();
+            double spacing = chart.sections[events[cursor].Group].mode.EventSpacingBeats();
             float fraction = StirHelperMath.ApproachFraction(events[cursor].Beat, beatNow, spacing);
             float ringSize = markerSize * Mathf.Lerp(1.15f, approachStartScale, fraction);
             marker.approach.transform.localScale = new Vector3(ringSize, ringSize, 1f);

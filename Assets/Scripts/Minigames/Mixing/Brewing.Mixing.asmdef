@@ -2,7 +2,8 @@
     "name": "Brewing.Mixing",
     "rootNamespace": "Brewing.Mixing",
     "references": [
-        "Brewing.Rhythm"
+        "Brewing.Rhythm",
+        "Brewing.Minigames.Shared"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

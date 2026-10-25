@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using Brewing.Rhythm;
 
-namespace Brewing.Mixing
+namespace Brewing.Minigames
 {
     /// <summary>
     /// How much each judgement moves the failure meter. The meter runs from 0 (calm) to 1 (boils over).

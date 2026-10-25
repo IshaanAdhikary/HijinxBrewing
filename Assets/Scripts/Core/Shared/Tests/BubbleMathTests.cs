@@ -1,6 +1,6 @@
 using NUnit.Framework;
 
-namespace Brewing.Mixing.Tests
+namespace Brewing.Minigames.Tests
 {
     public class BubbleMathTests
     {

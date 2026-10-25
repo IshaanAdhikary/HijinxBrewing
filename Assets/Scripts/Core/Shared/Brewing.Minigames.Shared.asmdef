@@ -1,0 +1,16 @@
+{
+    "name": "Brewing.Minigames.Shared",
+    "rootNamespace": "Brewing.Minigames",
+    "references": [
+        "Brewing.Rhythm"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

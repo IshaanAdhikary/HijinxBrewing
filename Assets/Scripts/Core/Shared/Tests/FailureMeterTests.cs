@@ -1,7 +1,7 @@
 using NUnit.Framework;
 using Brewing.Rhythm;
 
-namespace Brewing.Mixing.Tests
+namespace Brewing.Minigames.Tests
 {
     public class FailureMeterTests
     {

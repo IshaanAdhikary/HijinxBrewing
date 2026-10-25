@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Serialization;
 
-namespace Brewing.Mixing
+namespace Brewing.Minigames
 {
     /// <summary>
     /// Temporary debug widget: a bar showing how close the brew is to boiling over. The player is not
@@ -9,34 +9,33 @@ namespace Brewing.Mixing
     /// </summary>
     public class FailureDebugBar : MonoBehaviour
     {
-        [SerializeField, FormerlySerializedAs("game"), Tooltip("The minigame to show (anything implementing IFailureSource, such as MixingGame or PouringGame).")]
-        MonoBehaviour failureSource;
+        [SerializeField, FormerlySerializedAs("game"), Tooltip("The minigame to show (such as MixingGame or PouringGame).")]
+        FailureRun failureSource;
         [SerializeField] Vector2 size = new Vector2(240f, 18f);
         [SerializeField, Tooltip("Distance from the left and bottom edges of the screen, in pixels.")] Vector2 margin = new Vector2(12f, 14f);
 
         GUIStyle labelStyle;
-        IFailureSource game;
 
         void Awake()
         {
-            game = FailureSources.Resolve(failureSource, this);
+            if (failureSource == null) Debug.LogError("No failure source assigned.", this);
         }
 
         void OnGUI()
         {
-            if (game == null) return;
+            if (failureSource == null) return;
 
             if (labelStyle == null) labelStyle = new GUIStyle(GUI.skin.label) { fontStyle = FontStyle.Bold };
             labelStyle.fontSize = 14;
 
-            float level = game.FailureLevel;
+            float level = failureSource.FailureLevel;
             float x = margin.x;
             float y = Screen.height - margin.y - size.y;
 
             var previous = GUI.color;
 
-            string text = game.IsBoilingOver ? "BOIL OVER" : $"FAILURE {level * 100f:0}%";
-            GUI.color = game.IsBoilingOver ? new Color(1f, 0.35f, 0.35f) : Color.white;
+            string text = failureSource.IsBoilingOver ? "BOIL OVER" : $"FAILURE {level * 100f:0}%";
+            GUI.color = failureSource.IsBoilingOver ? new Color(1f, 0.35f, 0.35f) : Color.white;
             GUI.Label(new Rect(x, y - 24f, size.x, 22f), text, labelStyle);
 
             GUI.color = new Color(0f, 0f, 0f, 0.6f);
