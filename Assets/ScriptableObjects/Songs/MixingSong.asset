@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d7dd18583352fe419f83518cb8a8b71, type: 3}
+  m_Name: MixingSong
+  m_EditorClassIdentifier: Brewing.Rhythm::Brewing.Rhythm.Song
+  clip: {fileID: 8300000, guid: ab42662af09000244965d8da0503cb97, type: 3}
+  intenseClip: {fileID: 8300000, guid: 06cb9c9f05f6c6f4694e0dc0987b878b, type: 3}
+  bpm: 120
+  firstBeatOffsetSeconds: 0

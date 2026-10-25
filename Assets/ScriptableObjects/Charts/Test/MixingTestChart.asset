@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8cc7e435ca6a60d43adea9351c6820d6, type: 3}
   m_Name: MixingTestChart
   m_EditorClassIdentifier: Brewing.Rhythm::Brewing.Rhythm.PatternChart
-  song: {fileID: 11400000, guid: d5f2379246e6d7c428338be558254946, type: 2}
+  song: {fileID: 11400000, guid: 632549cd300be3c40adda92138e86252, type: 2}
   cues:
   - beat: 20
     name: HelperFadeOut

@@ -18,7 +18,7 @@ namespace Brewing.Crushing
         [SerializeField] CallResponseChart chart;
         [SerializeField, Tooltip("Misses an ingredient can have and still count as crushed.")] int allowedMissesPerIngredient = 1;
         [SerializeField, Tooltip("Failed ingredients the player can have and still pass.")] int maxFailures = 1;
-        [SerializeField, Tooltip("Seconds after the last ingredient is judged before the results show, so its throw can finish.")]
+        [SerializeField, Tooltip("Shortest wait, in seconds, between the last ingredient being judged and the results, so its throw can finish. The chart's Wait Beats At End can make the wait longer.")]
         float resultsDelaySeconds = 1.5f;
 
         readonly List<int> remainingInRound = new List<int>();
@@ -101,6 +101,7 @@ namespace Brewing.Crushing
         IEnumerator ShowResultsAfterDelay()
         {
             yield return new WaitForSecondsRealtime(resultsDelaySeconds);
+            while (Session.IsRunning && Session.Conductor.SongBeat < chart.ResultsBeat) yield return null;
             resultsRoutine = null;
             Session.End();
             IsFinished = true;

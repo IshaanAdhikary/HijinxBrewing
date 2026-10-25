@@ -74,7 +74,7 @@ namespace Brewing.Rhythm
             cueScheduler = new CueScheduler(chart.cues);
 
             var timing = chart.BeatClock;
-            conductor.Play(chart.Clip, timing.Bpm, timing.FirstBeatOffset, leadInSeconds);
+            conductor.Play(chart.Clip, timing.Bpm, timing.FirstBeatOffset, leadInSeconds, chart.IntenseClip);
             IsRunning = true;
         }
 

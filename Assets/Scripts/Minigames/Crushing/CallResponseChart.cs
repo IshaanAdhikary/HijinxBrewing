@@ -43,6 +43,7 @@ namespace Brewing.Crushing
         public int beatsPerBar;
         [Tooltip("Length of the call, in bars. The response is the same length and follows straight after.")] public int callBars;
         [Tooltip("Pattern characters per beat. 2 is eighth notes.")] public int slotsPerBeat;
+        [Tooltip("Beats of music after the last round ends before the results show.")] public int waitBeatsAtEnd;
 
         public CallLayout(int firstBeat, int beatsPerBar, int callBars, int slotsPerBeat)
         {
@@ -50,6 +51,7 @@ namespace Brewing.Crushing
             this.beatsPerBar = beatsPerBar;
             this.callBars = callBars;
             this.slotsPerBeat = slotsPerBeat;
+            waitBeatsAtEnd = 0;
         }
 
         public static CallLayout Default => new CallLayout(0, 4, 2, 2);
@@ -60,6 +62,7 @@ namespace Brewing.Crushing
         public double CallStart(int round) => firstBeat + round * RoundBeats;
         public double ResponseStart(int round) => CallStart(round) + CallBeats;
         public double RoundEnd(int round) => CallStart(round) + RoundBeats;
+        public double ResultsBeat(int roundCount) => RoundEnd(Math.Max(0, roundCount - 1)) + Math.Max(0, waitBeatsAtEnd);
     }
 
     /// <summary>
@@ -71,6 +74,9 @@ namespace Brewing.Crushing
     {
         public CallLayout layout = CallLayout.Default;
         public CallRound[] rounds = { new CallRound() };
+
+        /// <summary>The beat the results show on: the end of the last round plus the layout's wait.</summary>
+        public double ResultsBeat => layout.ResultsBeat(rounds?.Length ?? 0);
 
         public List<CallNote> BuildCallNotes() => CallResponseBuilder.CallNotes(layout, Patterns());
 
