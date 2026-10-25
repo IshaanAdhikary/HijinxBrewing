@@ -6,8 +6,9 @@ namespace Brewing.Minigames
 {
     /// <summary>
     /// The pop-up at the end of a minigame: a pass or fail heading, up to two lines of detail from the
-    /// minigame's <see cref="MinigameRun.Results"/>, and a Retry button that restarts the chart. Lives on the
-    /// ResultsPopup prefab; drop an instance in a scene and set its Game.
+    /// minigame's <see cref="MinigameRun.Results"/>, a Retry button that restarts the chart, and a Next button,
+    /// shown only on a pass, that moves on to the next scene. Lives on the ResultsPopup prefab; drop an instance
+    /// in a scene and set its Game.
     /// </summary>
     public class ResultsPopup : MonoBehaviour
     {
@@ -17,6 +18,7 @@ namespace Brewing.Minigames
         [SerializeField] TMP_Text detail;
         [SerializeField] TMP_Text subDetail;
         [SerializeField] Button retryButton;
+        [SerializeField, Tooltip("Shown only when the run passed. What it does is up to the button's own script (NextSceneButton).")] Button nextButton;
 
         [Header("Wording")]
         [SerializeField] string passHeading = "Brew Complete!";
@@ -53,8 +55,10 @@ namespace Brewing.Minigames
             heading.color = results.Passed ? passColor : failColor;
             SetLine(detail, results.Detail);
             SetLine(subDetail, results.SubDetail);
+            bool canContinue = results.Passed && nextButton != null;
+            if (nextButton != null) nextButton.gameObject.SetActive(canContinue);
             panel.SetActive(true);
-            retryButton.Select();
+            (canContinue ? nextButton : retryButton).Select();
         }
 
         void Hide() => panel.SetActive(false);
