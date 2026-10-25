@@ -19,13 +19,46 @@ namespace Brewing.Rhythm
             new RhythmAction(1, InputKind.Release),
         };
 
+        [Tooltip("Beat the first section starts on. Each later section starts where the previous one ends.")]
+        public int firstBeat;
+
+        [Tooltip("Played back to back. Start beats are worked out from the lengths, so only set Length and Mode.")]
         public ChartSection[] sections =
         {
             new ChartSection(0, 16, TempoMode.Normal),
         };
 
-        public override List<RhythmEvent> BuildEvents() => ChartBuilder.Build(sections, actionPattern);
+        [Tooltip("Beats of music after the last section ends before the results show.")]
+        public int waitBeatsAtEnd;
 
-        protected override List<string> ValidateEvents() => ChartBuilder.Validate(sections, actionPattern);
+        /// <summary>The beat the last section ends on.</summary>
+        public int EndBeat
+        {
+            get
+            {
+                int end = 0;
+                if (sections != null)
+                    foreach (var section in sections) end = Mathf.Max(end, section.EndBeat);
+                return end;
+            }
+        }
+
+        /// <summary>The beat the results show on: the end of the last section plus <see cref="waitBeatsAtEnd"/>.</summary>
+        public double ResultsBeat => EndBeat + Mathf.Max(0, waitBeatsAtEnd);
+
+        public override List<RhythmEvent> BuildEvents()
+        {
+            ChartBuilder.LayOut(sections, firstBeat);
+            return ChartBuilder.Build(sections, actionPattern);
+        }
+
+        protected override List<string> ValidateEvents()
+        {
+            ChartBuilder.LayOut(sections, firstBeat);
+            return ChartBuilder.Validate(sections, actionPattern);
+        }
+
+        // Keeps the start beats shown in the Inspector up to date as lengths are edited.
+        void OnValidate() => ChartBuilder.LayOut(sections, firstBeat);
     }
 }

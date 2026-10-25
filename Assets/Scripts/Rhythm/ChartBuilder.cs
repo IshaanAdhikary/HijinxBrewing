@@ -6,6 +6,21 @@ namespace Brewing.Rhythm
     public static class ChartBuilder
     {
         /// <summary>
+        /// Places the sections back to back: the first starts at <paramref name="firstBeat"/> and each later
+        /// one starts where the previous one ends. Lengths and modes are left as they are.
+        /// </summary>
+        public static void LayOut(ChartSection[] sections, int firstBeat)
+        {
+            if (sections == null) return;
+            int beat = firstBeat;
+            for (int i = 0; i < sections.Length; i++)
+            {
+                sections[i].startBeat = beat;
+                beat += Math.Max(0, sections[i].lengthBeats);
+            }
+        }
+
+        /// <summary>
         /// Generates the expected events for a list of sections. Each section starts a fresh pass through
         /// the pattern at its start beat, so a tempo change always begins at the first action of the cycle.
         /// </summary>

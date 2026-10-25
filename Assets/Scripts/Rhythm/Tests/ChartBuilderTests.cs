@@ -62,6 +62,22 @@ namespace Brewing.Rhythm.Tests
         }
 
         [Test]
+        public void LayOutPlacesSectionsBackToBackFromTheFirstBeat()
+        {
+            var sections = new[]
+            {
+                new ChartSection(99, 8, TempoMode.Half),
+                new ChartSection(0, 16, TempoMode.Normal),
+                new ChartSection(3, 4, TempoMode.Double),
+            };
+            ChartBuilder.LayOut(sections, 4);
+
+            Assert.AreEqual(new[] { 4, 12, 28 }, sections.Select(s => s.startBeat).ToArray());
+            Assert.AreEqual(new[] { 8, 16, 4 }, sections.Select(s => s.lengthBeats).ToArray());
+            Assert.AreEqual(new[] { TempoMode.Half, TempoMode.Normal, TempoMode.Double }, sections.Select(s => s.mode).ToArray());
+        }
+
+        [Test]
         public void ValidChartHasNoProblems()
         {
             var problems = ChartBuilder.Validate(new[]
