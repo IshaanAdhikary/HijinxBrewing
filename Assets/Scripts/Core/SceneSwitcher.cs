@@ -1,3 +1,4 @@
+using Microsoft.Unity.VisualStudio.Editor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -5,6 +6,8 @@ public class SceneSwitcher : MonoBehaviour
 {
 
     public static SceneSwitcher Instance { get; private set; }
+
+    Image fadeImage;
     private int nextScene = 1;
 
     private void Awake()
@@ -29,8 +32,11 @@ public class SceneSwitcher : MonoBehaviour
         nextScene = 1;
     }
 
+    
+
     public void NextScene()
     {
+
         switch (nextScene)
         {
             case 0:
