@@ -251,6 +251,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 847a4af6f2416e644b27effef687e025, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneSwitcher
+  fadeSeconds: 0.4
 --- !u!4 &373965622
 Transform:
   m_ObjectHideFlags: 0
@@ -701,6 +702,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a9eb9b053e7fb7418732135b7fc2089, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneClick
+  sound: {fileID: 8300000, guid: 3afcc1c49fc8d664c98830561de42fc4, type: 3}
 --- !u!60 &1707444239
 PolygonCollider2D:
   m_ObjectHideFlags: 0

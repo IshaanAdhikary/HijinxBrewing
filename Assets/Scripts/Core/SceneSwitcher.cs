@@ -23,6 +23,7 @@ public class SceneSwitcher : MonoBehaviour
     [SerializeField, Tooltip("Seconds to fade to black, and again to fade back in.")] float fadeSeconds = 0.4f;
 
     CanvasGroup fade;
+    AudioSource sfx;
     bool switching;
 
     private void Awake()
@@ -40,11 +41,24 @@ public class SceneSwitcher : MonoBehaviour
         // Keep this object alive across scene changes
         DontDestroyOnLoad(gameObject);
         BuildFade();
+        sfx = gameObject.AddComponent<AudioSource>();
+        sfx.playOnAwake = false;
     }
 
     public void ToTitle()
     {
         LoadWithFade(Flow[0]);
+    }
+
+    /// <summary>
+    /// Goes to the next scene, playing a sound first. The sound plays from this object, which survives the
+    /// scene change, so it is not cut off when the old scene unloads.
+    /// </summary>
+    public void NextScene(AudioClip sound)
+    {
+        if (switching) return;
+        if (sound != null) sfx.PlayOneShot(sound);
+        NextScene();
     }
 
     public void NextScene()

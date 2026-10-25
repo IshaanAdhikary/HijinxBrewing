@@ -392,6 +392,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e639235a732aad6409a9947b71db8c20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NextSceneButton
+  sound: {fileID: 8300000, guid: 3afcc1c49fc8d664c98830561de42fc4, type: 3}
 --- !u!1 &2405252342462964349
 GameObject:
   m_ObjectHideFlags: 0

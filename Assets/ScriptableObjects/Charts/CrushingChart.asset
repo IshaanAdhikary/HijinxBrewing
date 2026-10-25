@@ -29,5 +29,5 @@ MonoBehaviour:
     ingredient: {fileID: 11400000, guid: 2fbd49dea9b038a498e6cfbf2cb7ae91, type: 2}
   - pattern: L.RL..R. | L.RL..R.
     ingredient: {fileID: 11400000, guid: 6c795d19c0a5a9542af0c52de49815eb, type: 2}
-  - pattern: L.L....R | L.L....R
+  - pattern: L.L.R... | R.R.L...
     ingredient: {fileID: 11400000, guid: 73c3638f1f3938d4d81f3cd0cdabf0c4, type: 2}

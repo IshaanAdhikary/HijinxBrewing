@@ -6,22 +6,22 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Title.unity
+    path: Assets/Scenes/Build/Title.unity
     guid: ba33148c7661b8046b838e480ced67b7
   - enabled: 1
-    path: Assets/Scenes/Opening.unity
+    path: Assets/Scenes/Build/Opening.unity
     guid: 49c6f1e82c09b724a9d7f2c525d663f9
   - enabled: 1
     path: Assets/Scenes/Settings.unity
     guid: e0f59b1893503e7469c8d5e07220eb36
   - enabled: 1
-    path: Assets/Scenes/Credits.unity
+    path: Assets/Scenes/Build/Credits.unity
     guid: 8bfff2895fdf3a448b209ef09941c973
   - enabled: 1
-    path: Assets/Scenes/Crushing.unity
+    path: Assets/Scenes/Build/Crushing.unity
     guid: d6e66693bf0a62841837237f688d6873
   - enabled: 1
-    path: Assets/Scenes/Mixing.unity
+    path: Assets/Scenes/Build/Mixing.unity
     guid: 921db00512d70a24d8bdbf1a2564928f
   - enabled: 1
     path: Assets/Scenes/Pouring.unity

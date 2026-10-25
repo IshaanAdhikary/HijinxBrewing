@@ -5,8 +5,10 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Button))]
 public class NextSceneButton : MonoBehaviour
 {
+    [SerializeField, Tooltip("Optional. Played when the button is clicked.")] AudioClip sound;
+
     void Awake()
     {
-        GetComponent<Button>().onClick.AddListener(() => SceneSwitcher.Instance.NextScene());
+        GetComponent<Button>().onClick.AddListener(() => SceneSwitcher.Instance.NextScene(sound));
     }
 }
