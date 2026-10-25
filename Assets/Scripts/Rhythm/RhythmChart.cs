@@ -40,46 +40,34 @@ namespace Brewing.Rhythm
     }
 
     /// <summary>
-    /// A song plus its tempo sections. Events are generated from the sections: within each section the
-    /// action pattern repeats, one action per event spacing, restarting at the start of every section.
+    /// What every chart has, whatever the minigame: the song it plays to, and named cues. Each minigame has
+    /// its own chart type built on this (PatternChart for tempo sections, PourChart for bottles) that decides
+    /// which events the player must hit. The rhythm engine only needs the events, the song and the cues.
     /// </summary>
-    [CreateAssetMenu(menuName = "Brewing/Rhythm Chart", fileName = "RhythmChart")]
-    public class RhythmChart : ScriptableObject
+    public abstract class RhythmChart : ScriptableObject
     {
-        [Tooltip("Leave empty to play a metronome at the BPM below.")]
-        public AudioClip clip;
-        public double bpm = 120.0;
-        [Tooltip("Seconds from the start of the clip to beat 0.")]
-        public double firstBeatOffsetSeconds;
-
-        [Tooltip("The repeating cycle of actions. Default is the cauldron stir: hold left, release, hold right, release.")]
-        public RhythmAction[] actionPattern =
-        {
-            new RhythmAction(0, InputKind.Press),
-            new RhythmAction(0, InputKind.Release),
-            new RhythmAction(1, InputKind.Press),
-            new RhythmAction(1, InputKind.Release),
-        };
-
-        public ChartSection[] sections =
-        {
-            new ChartSection(0, 16, TempoMode.Normal),
-        };
+        [Tooltip("The music, its BPM and where beat 0 falls. Several charts can share one song.")]
+        public Song song;
 
         [Tooltip("Named triggers fired when the song reaches their beat. Listen for them with a ChartCueListener.")]
         public ChartCue[] cues = new ChartCue[0];
 
-        public BeatClock BeatClock => new BeatClock(bpm, firstBeatOffsetSeconds);
+        /// <summary>Beat timing from the song, or a plain 120 BPM if no song is assigned.</summary>
+        public BeatClock BeatClock => song != null ? song.BeatClock : new BeatClock(Song.DefaultBpm, 0.0);
 
-        /// <summary>The expected events, in beat order. Chart types with their own layout (such as pouring) override this.</summary>
-        public virtual List<RhythmEvent> BuildEvents() => ChartBuilder.Build(sections, actionPattern);
+        /// <summary>The music to play, or null for a metronome.</summary>
+        public AudioClip Clip => song != null ? song.clip : null;
 
-        /// <summary>Problems with the event layout. Override alongside <see cref="BuildEvents"/>.</summary>
-        protected virtual List<string> ValidateEvents() => ChartBuilder.Validate(sections, actionPattern);
+        /// <summary>The events the player must hit, in beat order.</summary>
+        public abstract List<RhythmEvent> BuildEvents();
+
+        /// <summary>Problems with this chart type's own layout.</summary>
+        protected abstract List<string> ValidateEvents();
 
         public List<string> Validate()
         {
             var problems = ValidateEvents();
+            if (song == null) problems.Add($"No song assigned, so a {Song.DefaultBpm} BPM metronome plays.");
             if (cues != null)
             {
                 for (int i = 0; i < cues.Length; i++)

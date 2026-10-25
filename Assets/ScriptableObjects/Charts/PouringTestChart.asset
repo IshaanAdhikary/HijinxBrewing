@@ -12,22 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e54a7394dd941374dbc541135b4014b2, type: 3}
   m_Name: PouringTestChart
   m_EditorClassIdentifier: Brewing.Pouring::Brewing.Pouring.PourChart
-  clip: {fileID: 0}
-  bpm: 120
-  firstBeatOffsetSeconds: 0
-  actionPattern:
-  - button: 0
-    kind: 0
-  - button: 0
-    kind: 1
-  - button: 1
-    kind: 0
-  - button: 1
-    kind: 1
-  sections:
-  - startBeat: 0
-    lengthBeats: 16
-    mode: 1
+  song: {fileID: 11400000, guid: d5f2379246e6d7c428338be558254946, type: 2}
   cues:
   - beat: 32
     name: HelperFadeOut

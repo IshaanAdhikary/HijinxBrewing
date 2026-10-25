@@ -43,9 +43,8 @@ namespace Brewing.Pouring
     }
 
     /// <summary>
-    /// A chart for the pouring minigame: a list of bottles instead of tempo sections. Each bottle becomes a
-    /// chord of both presses on its arrival beat and a chord of both releases a hold length later.
-    /// The tempo sections and action pattern inherited from RhythmChart are not used.
+    /// A chart for the pouring minigame: a list of bottles. Each bottle becomes a chord of both presses on
+    /// its arrival beat and a chord of both releases a hold length later.
     /// </summary>
     [CreateAssetMenu(menuName = "Brewing/Pour Chart", fileName = "PourChart")]
     public class PourChart : RhythmChart

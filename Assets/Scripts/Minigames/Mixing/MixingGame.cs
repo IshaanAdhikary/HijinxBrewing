@@ -13,7 +13,7 @@ namespace Brewing.Mixing
     public class MixingGame : MonoBehaviour, IFailureSource
     {
         [SerializeField] RhythmSession session;
-        [SerializeField] RhythmChart chart;
+        [SerializeField] PatternChart chart;
         [SerializeField] bool startOnLoad = true;
         [SerializeField] float leadInSeconds = 2f;
 

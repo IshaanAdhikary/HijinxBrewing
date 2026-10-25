@@ -92,10 +92,13 @@ namespace Brewing.Pouring.Tests
         public void TheChartAssetBuildsBottleEventsInsteadOfSections()
         {
             var chart = UnityEngine.ScriptableObject.CreateInstance<PourChart>();
+            var song = UnityEngine.ScriptableObject.CreateInstance<Song>();
+            chart.song = song;
             chart.bottles = new[] { new BottleEntry(2, BottleSize.Large) };
             var events = chart.BuildEvents();
             var problems = chart.Validate();
             UnityEngine.Object.DestroyImmediate(chart);
+            UnityEngine.Object.DestroyImmediate(song);
 
             Assert.AreEqual(4, events.Count);
             Assert.AreEqual(10.0, events[3].Beat);

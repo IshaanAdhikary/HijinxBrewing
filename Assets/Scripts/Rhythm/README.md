@@ -11,8 +11,11 @@ Open `Assets/Scenes/Prototypes/RhythmTest.unity`, press Play, click **Start**. L
 | Class | What it does |
 |---|---|
 | `Conductor` | The beat clock. Plays the song on the audio clock (`AudioSettings.dspTime`) and exposes `SongTime`, `SongBeat` and a `BeatPassed` event. Song time is negative during the lead-in. |
-| `RhythmChart` (ScriptableObject) | A song, its BPM and first-beat offset, and a list of **sections** (start beat, length, tempo mode). Create with Assets > Create > Brewing > Rhythm Chart. No clip means a metronome plays. |
-| `ChartBuilder` | Turns sections into the flat list of expected `RhythmEvent`s, and validates charts. |
+| `Song` (ScriptableObject) | The music: clip, BPM and first-beat offset. Several charts can share one. No clip means a metronome plays. Assets > Create > Brewing > Song. |
+| `RhythmChart` | Abstract base for every chart: which `Song` it plays to, plus named cues. Each minigame has its own chart type built on it. |
+| `PatternChart` (ScriptableObject) | Chart type for mixing: **sections** (start beat, length, tempo mode) and a repeating action pattern. Assets > Create > Brewing > Pattern Chart. |
+| `PourChart` (ScriptableObject) | Chart type for pouring, in `Brewing.Pouring`: a list of bottles (arrival beat, size). Assets > Create > Brewing > Pour Chart. |
+| `ChartBuilder` | Turns a pattern chart's sections into the flat list of expected `RhythmEvent`s, and validates them. |
 | `RhythmJudge` | Matches player input to expected events. Pure C#, no Unity dependencies. |
 | `RhythmInput` | Press and release events for buttons 0 (left) and 1 (right), timestamped from the Input System. |
 | `RhythmSession` | Glue: `Begin(chart)` starts everything, `Judged` fires on each hit or miss. |
@@ -23,7 +26,7 @@ Open `Assets/Scenes/Prototypes/RhythmTest.unity`, press Play, click **Start**. L
 
 ```csharp
 [SerializeField] RhythmSession session;
-[SerializeField] RhythmChart chart;
+[SerializeField] PatternChart chart;   // or your minigame's own chart type
 
 void Start()
 {
@@ -43,7 +46,11 @@ void Update()
 }
 ```
 
-## Tempo sections
+## Adding a chart type for a new minigame
+
+Make a class that extends `RhythmChart`, add the fields your minigame needs, and implement `BuildEvents()` (the events to hit, in beat order) and `ValidateEvents()` (problems to warn about). `RhythmSession` takes any chart type. `PourChart` is a worked example.
+
+## Tempo sections (pattern charts)
 
 Each section plays at one tempo mode, and the action pattern restarts at the start of each section.
 
@@ -53,7 +60,7 @@ Each section plays at one tempo mode, and the action pattern restarts at the sta
 | Normal | every beat | 4 beats |
 | Double | every half beat | 2 beats |
 
-Keep section lengths a multiple of that, so tempo changes happen at the bottom of the stir with no key held. `RhythmChart.Validate()` warns in the console when a section ends mid-cycle.
+Keep section lengths a multiple of that, so tempo changes happen at the bottom of the stir with no key held. `Validate()` warns in the console when a section ends mid-cycle.
 
 ## Timing notes
 

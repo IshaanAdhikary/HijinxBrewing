@@ -68,10 +68,13 @@ namespace Brewing.Rhythm.Tests
         [Test]
         public void ChartValidationFlagsUnnamedCues()
         {
-            var chart = UnityEngine.ScriptableObject.CreateInstance<RhythmChart>();
+            var chart = UnityEngine.ScriptableObject.CreateInstance<PatternChart>();
+            var song = UnityEngine.ScriptableObject.CreateInstance<Song>();
+            chart.song = song;
             chart.cues = new[] { new ChartCue(4, "Fine"), new ChartCue(8, "  ") };
             var problems = chart.Validate();
             UnityEngine.Object.DestroyImmediate(chart);
+            UnityEngine.Object.DestroyImmediate(song);
 
             Assert.AreEqual(1, problems.Count);
             StringAssert.Contains("no name", problems[0]);
