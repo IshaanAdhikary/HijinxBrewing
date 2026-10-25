@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b5e3f10ab8042c4e877a37ee49af0e7, type: 3}
   m_Name: CrushingTestChart
   m_EditorClassIdentifier: Brewing.Crushing::Brewing.Crushing.CallResponseChart
-  song: {fileID: 11400000, guid: d5f2379246e6d7c428338be558254946, type: 2}
+  song: {fileID: 11400000, guid: b43a4c70a930000469b104478ba147e3, type: 2}
   cues: []
   layout:
     firstBeat: 0

@@ -2,7 +2,9 @@
     "name": "Brewing.Minigames.Shared",
     "rootNamespace": "Brewing.Minigames",
     "references": [
-        "Brewing.Rhythm"
+        "Brewing.Rhythm",
+        "Unity.TextMeshPro",
+        "UnityEngine.UI"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

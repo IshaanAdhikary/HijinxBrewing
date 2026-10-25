@@ -58,6 +58,9 @@ namespace Brewing.Rhythm
         /// <summary>The music to play, or null for a metronome.</summary>
         public AudioClip Clip => song != null ? song.clip : null;
 
+        /// <summary>The song's intense version, or null if it has none.</summary>
+        public AudioClip IntenseClip => song != null ? song.intenseClip : null;
+
         /// <summary>The events the player must hit, in beat order.</summary>
         public abstract List<RhythmEvent> BuildEvents();
 

@@ -15,6 +15,8 @@ namespace Brewing.Rhythm
 
         [Tooltip("Leave empty to play a metronome at the BPM below.")]
         public AudioClip clip;
+        [Tooltip("Optional. The same music with extra instruments, the same length and timing as the clip. It plays in sync, muted, and minigames that support it (mixing) switch between the two.")]
+        public AudioClip intenseClip;
         public double bpm = DefaultBpm;
         [Tooltip("Seconds from the start of the clip to beat 0.")]
         public double firstBeatOffsetSeconds;

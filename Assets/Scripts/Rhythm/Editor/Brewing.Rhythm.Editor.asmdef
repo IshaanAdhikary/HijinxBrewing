@@ -1,0 +1,18 @@
+{
+    "name": "Brewing.Rhythm.Editor",
+    "rootNamespace": "Brewing.Rhythm.Editor",
+    "references": [
+        "Brewing.Rhythm"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

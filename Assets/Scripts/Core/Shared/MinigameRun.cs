@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 using Brewing.Rhythm;
@@ -5,8 +6,9 @@ using Brewing.Rhythm;
 namespace Brewing.Minigames
 {
     /// <summary>
-    /// What every rhythm minigame does: starts its chart on the rhythm session (on load, or when asked) and
-    /// hears every judgement. Each minigame supplies its chart and decides what a judgement means.
+    /// What every rhythm minigame does: starts its chart on the rhythm session (on load, or when asked),
+    /// hears every judgement, and finishes with results for the results pop-up. Each minigame supplies its
+    /// chart, decides what a judgement means, and decides when it is finished.
     /// </summary>
     public abstract class MinigameRun : MonoBehaviour
     {
@@ -21,6 +23,15 @@ namespace Brewing.Minigames
         public RhythmSession Session => session;
 
         public UnityEvent ChartStarted => chartStarted;
+
+        /// <summary>True once the run has finished and its results are up, until the next <see cref="Begin"/>.</summary>
+        public bool IsFinished { get; private set; }
+
+        /// <summary>Raised once when the run finishes. Read <see cref="Results"/> for what to show.</summary>
+        public event Action Finished;
+
+        /// <summary>Pass or fail and the detail lines for the results pop-up.</summary>
+        public virtual RunResults Results => new RunResults(true, "", "");
 
         /// <summary>The chart this run plays.</summary>
         protected abstract RhythmChart ChartToPlay { get; }
@@ -52,10 +63,20 @@ namespace Brewing.Minigames
         /// <summary>Starts the chart from the beginning, restarting it if it is already running.</summary>
         public void Begin()
         {
+            IsFinished = false;
             ResetRun();
             OnBegin();
             session.Begin(ChartToPlay, leadInSeconds);
             chartStarted.Invoke();
+        }
+
+        /// <summary>Stops the music and raises <see cref="Finished"/>. Does nothing if already finished.</summary>
+        protected void Finish()
+        {
+            if (IsFinished) return;
+            IsFinished = true;
+            session.End();
+            Finished?.Invoke();
         }
     }
 }

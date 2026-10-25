@@ -15,4 +15,4 @@ MonoBehaviour:
   displayName: Green
   sprite: {fileID: -8804265293397099319, guid: 182f7726ce9351144bfe94b05066ceab, type: 3}
   shelfSprite: {fileID: 7813840312128995875, guid: a6f6d36687558d340a2bb42157f4298f, type: 3}
-  powderColor: {r: 0.66, g: 0.64, b: 0.16, a: 1}
+  powderColor: {r: 0.8584906, g: 0.8344168, b: 0.24701849, a: 1}

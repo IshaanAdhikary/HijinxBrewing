@@ -18,8 +18,12 @@ namespace Brewing.Crushing
         [SerializeField] CallResponseChart chart;
         [SerializeField, Tooltip("Misses an ingredient can have and still count as crushed.")] int allowedMissesPerIngredient = 1;
         [SerializeField, Tooltip("Failed ingredients the player can have and still pass.")] int maxFailures = 1;
-        [SerializeField, Tooltip("Seconds after the last ingredient is judged before the results show, so its throw can finish.")]
+        [SerializeField, Tooltip("Shortest wait, in seconds, between the last ingredient being judged and the results, so its throw can finish. The chart's Wait Beats At End can make the wait longer.")]
         float resultsDelaySeconds = 1.5f;
+
+        [Header("Results text")]
+        [SerializeField, Tooltip("{0} is the number crushed, {1} the total.")] string crushedFormat = "{0} / {1} ingredients crushed";
+        [SerializeField, Tooltip("{0} is the number needed.")] string neededFormat = "{0} needed";
 
         readonly List<int> remainingInRound = new List<int>();
         readonly List<int> missesInRound = new List<int>();
@@ -41,17 +45,14 @@ namespace Brewing.Crushing
 
         public bool Passed => Crushed >= Needed;
 
-        /// <summary>True once every ingredient has been judged and the results are up.</summary>
-        public bool IsFinished { get; private set; }
+        public override RunResults Results =>
+            new RunResults(Passed, string.Format(crushedFormat, Crushed, TotalIngredients), string.Format(neededFormat, Needed));
 
         /// <summary>Raised for each response note, hit or missed.</summary>
         public event Action<JudgeResult> NoteJudged;
 
         /// <summary>Raised when the last note of a round is judged. The bool is true if the ingredient was crushed.</summary>
         public event Action<int, bool> RoundFinished;
-
-        /// <summary>Raised once, a moment after the last ingredient, when the results should show.</summary>
-        public event Action Finished;
 
         protected override RhythmChart ChartToPlay => chart;
 
@@ -66,7 +67,6 @@ namespace Brewing.Crushing
             CallNotes = chart.BuildCallNotes();
             Crushed = 0;
             Failures = 0;
-            IsFinished = false;
 
             remainingInRound.Clear();
             missesInRound.Clear();
@@ -101,10 +101,9 @@ namespace Brewing.Crushing
         IEnumerator ShowResultsAfterDelay()
         {
             yield return new WaitForSecondsRealtime(resultsDelaySeconds);
+            while (Session.IsRunning && Session.Conductor.SongBeat < chart.ResultsBeat) yield return null;
             resultsRoutine = null;
-            Session.End();
-            IsFinished = true;
-            Finished?.Invoke();
+            Finish();
         }
     }
 }
