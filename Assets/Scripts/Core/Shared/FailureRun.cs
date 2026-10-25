@@ -15,7 +15,9 @@ namespace Brewing.Minigames
     {
         [Header("Failure")]
         [SerializeField] FailureSettings failure = new FailureSettings();
-        [SerializeField, Tooltip("Seconds between boiling over and the chart restarting from the beginning.")] float restartDelaySeconds = 2f;
+        [SerializeField, Tooltip("Restart the chart by itself after a boil-over. Turn off when something else restarts it, such as a BoilOverScreen.")]
+        bool autoRestart = true;
+        [SerializeField, Tooltip("Seconds between boiling over and the chart restarting from the beginning, when restarting by itself.")] float restartDelaySeconds = 2f;
 
         FailureMeter meter;
         Coroutine restartRoutine;
@@ -25,7 +27,7 @@ namespace Brewing.Minigames
 
         public bool IsBoilingOver { get; private set; }
 
-        /// <summary>Raised once when the brew boils over, before the delayed restart.</summary>
+        /// <summary>Raised once when the brew boils over, before any restart.</summary>
         public event Action Failed;
 
         /// <summary>
@@ -63,7 +65,7 @@ namespace Brewing.Minigames
             IsBoilingOver = true;
             Session.End();
             Failed?.Invoke();
-            restartRoutine = StartCoroutine(RestartAfterDelay());
+            if (autoRestart) restartRoutine = StartCoroutine(RestartAfterDelay());
         }
 
         IEnumerator RestartAfterDelay()

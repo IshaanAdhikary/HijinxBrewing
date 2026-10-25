@@ -32,6 +32,9 @@ namespace Brewing.Rhythm
             return clip;
         }
 
+        /// <summary>One metronome click: 1600 Hz for an accent, 1000 Hz otherwise, as in <see cref="Metronome"/>.</summary>
+        public static AudioClip Click(bool accent) => Tone(accent ? 1600f : 1000f, 0.04f, 0.6f);
+
         /// <summary>A short decaying tone, useful as a placeholder hit sound.</summary>
         public static AudioClip Tone(float frequency, float seconds, float volume = 0.4f)
         {

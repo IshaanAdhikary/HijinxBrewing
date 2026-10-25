@@ -27,6 +27,9 @@ namespace Brewing.Rhythm
         /// <summary>Raised for every press or release, hit or not. Use it for immediate feedback sounds.</summary>
         public event Action<RhythmAction> ButtonInput;
 
+        /// <summary>Raised when a chart starts, just after its music is scheduled (so during the lead-in).</summary>
+        public event Action<RhythmChart> Started;
+
         /// <summary>Raised once when the song reaches a cue placed in the chart.</summary>
         public event Action<ChartCue> CueTriggered;
 
@@ -76,6 +79,7 @@ namespace Brewing.Rhythm
             var timing = chart.BeatClock;
             conductor.Play(chart.Clip, timing.Bpm, timing.FirstBeatOffset, leadInSeconds, chart.IntenseClip);
             IsRunning = true;
+            Started?.Invoke(chart);
         }
 
         public void End()

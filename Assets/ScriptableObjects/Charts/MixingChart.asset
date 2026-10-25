@@ -45,4 +45,4 @@ MonoBehaviour:
   - startBeat: 72
     lengthBeats: 24
     mode: 0
-  waitBeatsAtEnd: 8
+  waitBeatsAtEnd: 4

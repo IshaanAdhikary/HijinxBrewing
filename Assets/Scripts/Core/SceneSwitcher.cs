@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class SceneSwitcher : MonoBehaviour
 {
     // The order scenes are played in. NextScene goes to the one after the current scene, looping back to the start.
-    static readonly string[] Flow = { "Title", "Crushing", "Mixing", "Credits" };
+    static readonly string[] Flow = { "Title", "Opening", "Crushing", "Mixing", "Credits" };
 
     static SceneSwitcher instance;
 
