@@ -47,7 +47,9 @@ namespace Brewing.Pouring
         protected override bool TryScore(JudgeResult result, out Judgement judgement)
         {
             judgement = default;
-            if (!combiner.Add(result, out var combined)) return false;
+            // A stray press has no pour to pair with, so it counts on its own rather than going through the combiner.
+            var combined = result;
+            if (!result.IsStray && !combiner.Add(result, out combined)) return false;
 
             if (overlay != null) overlay.Show(combined);
             PourJudged?.Invoke(combined);

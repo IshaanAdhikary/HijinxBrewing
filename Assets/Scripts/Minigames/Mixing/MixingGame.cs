@@ -28,7 +28,7 @@ namespace Brewing.Mixing
                 if (judge == null) return new RunResults(true, "", "");
                 int hits = judge.PerfectCount + judge.GoodCount;
                 return new RunResults(true,
-                    string.Format(judgementsFormat, judge.PerfectCount, judge.GoodCount, judge.MissCount),
+                    string.Format(judgementsFormat, judge.PerfectCount, judge.GoodCount, judge.MissCount + judge.StrayCount),
                     string.Format(hitsFormat, hits, judge.EventCount));
             }
         }

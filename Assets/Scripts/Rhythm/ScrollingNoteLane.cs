@@ -93,7 +93,7 @@ namespace Brewing.Rhythm
 
         void OnJudged(JudgeResult result)
         {
-            if (resolved != null && result.Event.Index < resolved.Length) resolved[result.Event.Index] = true;
+            if (resolved != null && result.Event.Index >= 0 && result.Event.Index < resolved.Length) resolved[result.Event.Index] = true;
         }
 
         void LateUpdate()

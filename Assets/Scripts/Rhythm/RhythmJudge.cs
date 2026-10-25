@@ -15,6 +15,9 @@ namespace Brewing.Rhythm
 
         [Tooltip("Windows never exceed this fraction of the gap to the nearest neighbouring event, so fast sections stay unambiguous.")]
         public double maxFractionOfGap = 0.4;
+
+        [Tooltip("A press that hits no note (outside every window, or the wrong key) counts as a miss of its own. Only presses between the first note's window opening and the last note's window closing count, so tapping along to a count-in or an outro is free.")]
+        public bool strayPressesAreMisses = true;
     }
 
     /// <summary>
@@ -23,12 +26,18 @@ namespace Brewing.Rhythm
     ///
     /// Several events can share a beat (a chord, such as pressing left and right together). They are judged
     /// independently and can be hit in any order.
+    ///
+    /// A press that hits no note can be judged as a stray miss (see <see cref="JudgeSettings.strayPressesAreMisses"/>).
+    /// Strays are reported through <see cref="Judged"/> with <see cref="JudgeResult.IsStray"/> set, and leave
+    /// the notes untouched.
     /// </summary>
     public class RhythmJudge
     {
         const double SameTimeTolerance = 1e-6;
 
         readonly IReadOnlyList<RhythmEvent> events;
+        readonly BeatClock beatClock;
+        readonly bool strayPressesAreMisses;
         readonly double[] times;
         readonly double[] goodWindows;
         readonly double[] perfectWindows;
@@ -42,6 +51,9 @@ namespace Brewing.Rhythm
         public int GoodCount { get; private set; }
         public int MissCount { get; private set; }
 
+        /// <summary>Presses that hit no note. Not included in <see cref="MissCount"/>, which counts missed notes.</summary>
+        public int StrayCount { get; private set; }
+
         public int Cursor => cursor;
         public bool IsFinished => cursor >= events.Count;
         public int EventCount => events.Count;
@@ -52,6 +64,8 @@ namespace Brewing.Rhythm
         public RhythmJudge(IReadOnlyList<RhythmEvent> events, BeatClock beatClock, JudgeSettings settings)
         {
             this.events = events;
+            this.beatClock = beatClock;
+            strayPressesAreMisses = settings.strayPressesAreMisses;
             int n = events.Count;
             times = new double[n];
             goodWindows = new double[n];
@@ -95,7 +109,8 @@ namespace Brewing.Rhythm
 
         /// <summary>
         /// Offers one player action. Returns true if it hit an unresolved event of that action whose window
-        /// contains the input. Wrong buttons and inputs outside every window are ignored and return false.
+        /// contains the input. Otherwise returns false: a press is judged as a stray miss (when stray presses
+        /// count and the chart is under way) and reported in <paramref name="result"/>; anything else is ignored.
         /// </summary>
         public bool Input(RhythmAction action, double songTime, out JudgeResult result)
         {
@@ -114,6 +129,13 @@ namespace Brewing.Rhythm
                 Resolve(i, result);
                 return true;
             }
+
+            if (strayPressesAreMisses && action.kind == InputKind.Press && IsUnderWay(songTime))
+            {
+                result = JudgeResult.Stray(action, beatClock.SongTimeToBeat(songTime));
+                StrayCount++;
+                Judged?.Invoke(result);
+            }
             return false;
         }
 
@@ -121,7 +143,14 @@ namespace Brewing.Rhythm
         {
             cursor = 0;
             Array.Clear(resolved, 0, resolved.Length);
-            PerfectCount = GoodCount = MissCount = 0;
+            PerfectCount = GoodCount = MissCount = StrayCount = 0;
+        }
+
+        /// <summary>From the first note's window opening to the last note's window closing.</summary>
+        bool IsUnderWay(double songTime)
+        {
+            int last = events.Count - 1;
+            return last >= 0 && songTime >= times[0] - goodWindows[0] && songTime <= times[last] + goodWindows[last];
         }
 
         void Resolve(int index, JudgeResult result)

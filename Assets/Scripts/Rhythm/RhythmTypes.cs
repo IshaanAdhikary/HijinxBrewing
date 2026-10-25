@@ -67,11 +67,30 @@ namespace Brewing.Rhythm
         /// <summary>Input time minus expected time in seconds. Negative is early. Zero for misses.</summary>
         public readonly double ErrorSeconds;
 
+        /// <summary>
+        /// True for a press that hit no note (outside every window, or the wrong key). It is always a Miss, and
+        /// its Event is not a real note: Index and Group are -1, Beat is when the press happened, and Action is
+        /// the press itself.
+        /// </summary>
+        public readonly bool IsStray;
+
         public JudgeResult(RhythmEvent evt, Judgement judgement, double errorSeconds)
         {
             Event = evt;
             Judgement = judgement;
             ErrorSeconds = errorSeconds;
+            IsStray = false;
         }
+
+        JudgeResult(RhythmEvent evt)
+        {
+            Event = evt;
+            Judgement = Judgement.Miss;
+            ErrorSeconds = 0.0;
+            IsStray = true;
+        }
+
+        /// <summary>A miss for a press at <paramref name="beat"/> that matched no note.</summary>
+        public static JudgeResult Stray(RhythmAction action, double beat) => new JudgeResult(new RhythmEvent(-1, beat, action, -1));
     }
 }

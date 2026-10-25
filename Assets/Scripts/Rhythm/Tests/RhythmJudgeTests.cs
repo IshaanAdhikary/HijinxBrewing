@@ -55,15 +55,64 @@ namespace Brewing.Rhythm.Tests
         }
 
         [Test]
-        public void WrongButtonIsIgnored()
+        public void WrongButtonPressIsAStrayMissAndLeavesTheNoteOpen()
         {
             var judge = Make(out var results, new ChartSection(0, 4, TempoMode.Normal));
-            Assert.IsFalse(judge.Input(PressRight, 0.0, out _));
-            Assert.IsFalse(judge.Input(ReleaseLeft, 0.0, out _));
-            Assert.AreEqual(0, results.Count);
+            Assert.IsFalse(judge.Input(PressRight, 0.0, out var stray));
+            Assert.IsTrue(stray.IsStray);
+            Assert.AreEqual(Judgement.Miss, stray.Judgement);
+            Assert.AreEqual(-1, stray.Event.Index);
+            Assert.AreEqual(PressRight, stray.Event.Action);
 
-            // The right input afterwards still works.
+            // A wrong release is still ignored, and the right input afterwards still works.
+            Assert.IsFalse(judge.Input(ReleaseLeft, 0.0, out _));
+            Assert.AreEqual(1, results.Count);
             Assert.IsTrue(judge.Input(PressLeft, 0.01, out _));
+        }
+
+        [Test]
+        public void PressBetweenWindowsIsAStrayMissAtItsBeat()
+        {
+            var judge = Make(out var results, new ChartSection(0, 4, TempoMode.Normal));
+            judge.Input(PressLeft, 0.0, out _);
+            judge.Input(PressLeft, 0.25, out var stray);
+
+            Assert.IsTrue(stray.IsStray);
+            Assert.AreEqual(0.5, stray.Event.Beat, 1e-9);
+            Assert.AreEqual(1, judge.StrayCount);
+            Assert.AreEqual(0, judge.MissCount, "strays are not missed notes");
+            Assert.AreEqual(1, judge.Cursor, "the next note is still open");
+            Assert.AreEqual(2, results.Count);
+        }
+
+        [Test]
+        public void PressesBeforeTheFirstWindowOrAfterTheLastAreFree()
+        {
+            var judge = Make(out var results, new ChartSection(0, 4, TempoMode.Normal));
+            judge.Input(PressLeft, -0.5, out var early);
+            Assert.IsFalse(early.IsStray);
+
+            // The last of the four events is at 1.5s.
+            judge.AdvanceTo(2.0);
+            int missedNotes = results.Count;
+            judge.Input(PressLeft, 2.0, out var late);
+            Assert.IsFalse(late.IsStray);
+            Assert.AreEqual(missedNotes, results.Count);
+            Assert.AreEqual(0, judge.StrayCount);
+        }
+
+        [Test]
+        public void StrayPressesCanBeTurnedOff()
+        {
+            var pattern = new[] { PressLeft, ReleaseLeft, PressRight, new RhythmAction(1, InputKind.Release) };
+            var judge = new RhythmJudge(ChartBuilder.Build(new[] { new ChartSection(0, 4, TempoMode.Normal) }, pattern), Clock,
+                new JudgeSettings { strayPressesAreMisses = false });
+            var results = new List<JudgeResult>();
+            judge.Judged += results.Add;
+
+            Assert.IsFalse(judge.Input(PressRight, 0.0, out _));
+            Assert.AreEqual(0, results.Count);
+            Assert.AreEqual(0, judge.StrayCount);
         }
 
         [Test]

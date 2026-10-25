@@ -48,7 +48,7 @@ namespace Brewing.Crushing
         public override RunResults Results =>
             new RunResults(Passed, string.Format(crushedFormat, Crushed, TotalIngredients), string.Format(neededFormat, Needed));
 
-        /// <summary>Raised for each response note, hit or missed.</summary>
+        /// <summary>Raised for each response note, hit or missed, and for each stray press during a response.</summary>
         public event Action<JudgeResult> NoteJudged;
 
         /// <summary>Raised when the last note of a round is judged. The bool is true if the ingredient was crushed.</summary>
@@ -84,6 +84,12 @@ namespace Brewing.Crushing
 
         protected override void HandleJudged(JudgeResult result)
         {
+            if (result.IsStray)
+            {
+                HandleStray(result);
+                return;
+            }
+
             NoteJudged?.Invoke(result);
 
             int round = result.Event.Group;
@@ -96,6 +102,20 @@ namespace Brewing.Crushing
             RoundFinished?.Invoke(round, crushed);
 
             if (Crushed + Failures == TotalIngredients) resultsRoutine = StartCoroutine(ShowResultsAfterDelay());
+        }
+
+        /// <summary>
+        /// A press that hit no note. Free during a call, so players can tap along to learn the pattern; during a
+        /// response it counts as a miss against that round's ingredient, until the ingredient has been decided.
+        /// </summary>
+        void HandleStray(JudgeResult result)
+        {
+            double beat = result.Event.Beat;
+            int round = chart.RoundAt(beat);
+            if (round < 0 || beat < chart.layout.ResponseStart(round)) return;
+
+            NoteJudged?.Invoke(result);
+            if (remainingInRound[round] > 0) missesInRound[round]++;
         }
 
         IEnumerator ShowResultsAfterDelay()

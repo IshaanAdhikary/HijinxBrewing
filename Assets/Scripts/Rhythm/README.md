@@ -66,7 +66,8 @@ Keep section lengths a multiple of that, so tempo changes happen at the bottom o
 
 - Judging uses the audio clock, not frame time, and the Input System's own event timestamps. Don't read `Time.time` for anything beat-related.
 - Hit windows are generous and shrink automatically in double time (never more than 40% of the gap to the next event). Tune them in the `Judge Settings` on `RhythmSession`.
-- Wrong buttons and inputs that are too early are ignored. Events only become misses once their window has passed.
+- Events only become misses once their window has passed.
+- A press that hits no note (outside every window, or the wrong button) is a stray miss: it is reported through `Judged` with `IsStray` set, counted in `StrayCount` (not `MissCount`), and leaves the notes untouched. Presses before the first note's window opens or after the last one closes are free, and releases never count. Turn it off with `strayPressesAreMisses` on the session's Judge Settings.
 - Rebinding or gamepad: assign an `InputActionAsset` on `RhythmInput`, with actions named `Left` and `Right` in a map called `Rhythm`.
 
 ## Tests

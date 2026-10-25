@@ -767,6 +767,7 @@ MonoBehaviour:
     perfectWindow: 0.05
     goodWindow: 0.11
     maxFractionOfGap: 0.4
+    strayPressesAreMisses: 1
 --- !u!114 &661692754
 MonoBehaviour:
   m_ObjectHideFlags: 0
