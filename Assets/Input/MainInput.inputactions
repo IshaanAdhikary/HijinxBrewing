@@ -1,0 +1,77 @@
+{
+    "version": 1,
+    "name": "MainInput",
+    "maps": [
+        {
+            "name": "Rhythm",
+            "id": "8fcef846-9280-4744-8761-00abeb8fb950",
+            "actions": [
+                {
+                    "name": "LeftPaw",
+                    "type": "Button",
+                    "id": "3d41a937-a5a3-43f5-af33-17ebf50027e1",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "RightPaw",
+                    "type": "Button",
+                    "id": "b7fc96ba-ca64-45a8-bbcc-c5b42d184977",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "c9cc5d3c-d78d-4cb5-8a4d-e85bf9c73395",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LeftPaw",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2396794e-13d8-424e-b967-b34fd576d2f5",
+                    "path": "<Keyboard>/leftArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LeftPaw",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e733f48a-fd0c-47e4-b153-02806b3b22f4",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RightPaw",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8ecd0421-4320-49e4-a5e3-2082cb800a81",
+                    "path": "<Keyboard>/rightArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RightPaw",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
